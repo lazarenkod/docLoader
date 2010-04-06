@@ -1,4 +1,4 @@
-package com.geopack;
+package com.geopack.models;
 
 /**
  * User: Lazarenko.Dmitry
@@ -7,6 +7,10 @@ package com.geopack;
  */
 public class DictData {
 	private Object rawData;
+
+	public DictData(Object rawData) {
+		this.rawData = rawData;
+	}
 
 	/**
 	 *
@@ -39,9 +43,7 @@ public class DictData {
 
 	@Override
 	public String toString() {
-		return "DictData{" +
-		       "rawData=" + rawData +
-		       '}';
+		return rawData.toString();
 	}
 
 

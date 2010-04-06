@@ -1,4 +1,4 @@
-package com.geopack;
+package com.geopack.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +55,7 @@ public class DictTable {
 	}
 
 	/**
-	 *
-	 * @param rowIndex номер сточки в справочнике
+	 * @param rowIndex    номер сточки в справочнике
 	 * @param columnIndex номер столбца в справочнике
 	 * @return Рашифрованное значение записи
 	 */
@@ -73,7 +72,7 @@ public class DictTable {
 			return value;
 		}
 	}
-	
+
 	public Object getDecodedValue(int rowIndex, String columnName) {
 		return getDecodedValue(rowIndex, model.getColumnIndex(columnName));
 	}

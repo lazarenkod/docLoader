@@ -1,4 +1,4 @@
-package com.geopack;
+package com.geopack.models;
 
 import java.util.*;
 
