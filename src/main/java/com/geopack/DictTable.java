@@ -79,11 +79,11 @@ public class DictTable {
 	}
 
 	public DictColumnModel getColumnModel(int columnIndex) {
-		return model.getColumnModels().get(columnIndex);//todo bug
+		return model.getColumnModels().get(columnIndex);
 	}
 
 	public DictColumnModel getColumnModel(String columnName) {
-		return model.getColumnModels().get(columnName);
+		return model.getColumnModel(columnName);
 	}
 
 	public String getName() {

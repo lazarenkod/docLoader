@@ -10,18 +10,18 @@ import java.util.*;
 public class DictTableModel {
 	private String name;
 	private String description;
-	private Map<String,DictColumnModel> columnModels = new HashMap<String,DictColumnModel>();
+	private List<DictColumnModel> columnModels = new ArrayList<DictColumnModel>();
 
 	public DictTableModel(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
 
-	public DictTableModel(String name, String description, Map<String,DictColumnModel> columnModels) {
+	public DictTableModel(String name, String description, List<DictColumnModel> columnModels) {
 		this.name = name;
 		this.description = description;
 		this.columnModels.clear();
-		this.columnModels.putAll(columnModels);
+		this.columnModels.addAll(columnModels);
 	}
 
 	public String getName() {
@@ -40,12 +40,16 @@ public class DictTableModel {
 		this.description = description;
 	}
 
-	public Map<String,DictColumnModel> getColumnModels() {
-		return Collections.unmodifiableMap(columnModels);
+	public List<DictColumnModel> getColumnModels() {
+		return Collections.unmodifiableList(columnModels);
 	}
 
 	public DictColumnModel getColumnModel(String name) {
-		return columnModels.get(name);
+		for (DictColumnModel columnModel : columnModels) {
+			if (columnModel.getName().equals(name))
+				return columnModel;
+		}
+		return null;
 	}
 
 	public int getColumnIndex(String name) {
@@ -59,7 +63,7 @@ public class DictTableModel {
 	}
 
 	public void addColumnModel(DictColumnModel columnModel) {
-		columnModels.put(columnModel.getName(),columnModel);
+		columnModels.add(columnModel);
 	}
 
 	public void removeColumnModel(DictColumnModel columnModel) {
