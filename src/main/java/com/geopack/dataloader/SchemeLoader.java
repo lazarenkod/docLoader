@@ -1,12 +1,20 @@
 package com.geopack.dataloader;
 
+import com.geopack.dataloader.nodes.XmlField;
 import com.geopack.dataloader.nodes.XmlTableModel;
+import com.geopack.models.DictColumnModel;
+import com.geopack.models.DictTable;
+import com.geopack.models.DictTableModel;
+import com.geopack.utils.TableCache;
 import org.apache.commons.digester.Digester;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * User: Lazarenko.Dmitry
@@ -19,7 +27,7 @@ public class SchemeLoader {
 	public SchemeLoader() {
 	}
 
-	private XmlTableModel loadScheme(File file)throws IOException, SAXException {
+	private XmlTableModel loadScheme(File file) throws IOException, SAXException {
 		Digester digester = new Digester();
 		digester.setValidating(false);
 		digester.addObjectCreate("tablemodel", "com.geopack.dataloader.nodes.XmlTableModel");
@@ -51,7 +59,33 @@ public class SchemeLoader {
 			for (File file : schemeFiles) {
 				try {
 					final XmlTableModel xmlTableModel = loadScheme(file);
-					
+					DictTableModel dictTableModel = new DictTableModel(xmlTableModel.getId(), xmlTableModel.getDesc(), xmlTableModel.getSrcFile());
+					for (XmlField xmlField : xmlTableModel.getFields()) {
+						DictColumnModel columnModel = new DictColumnModel();
+						columnModel.setName(xmlField.getId());
+						columnModel.setDescription(xmlField.getDesc());
+						columnModel.setKeyField("1".equals(xmlField.getKey()));
+						//зануляем пустые необязательные поля
+						columnModel.setSrcTableName((StringUtils.isEmpty(xmlField.getKeyTable()) ? null : xmlField.getKeyTable()));
+						columnModel.setSrcTableColumsName(StringUtils.isEmpty(xmlField.getKeyField()) ? null : xmlField.getKeyField());
+						columnModel.setSrcTableColumnViewName(StringUtils.isEmpty(xmlField.getKeyDescField()) ? null : xmlField.getKeyDescField());
+
+						final String valueType = xmlField.getType();
+						if (valueType.equals("String")) {
+							columnModel.setType(String.class);
+						} else if (valueType.equals("Integer")) {
+							columnModel.setType(Integer.class);
+						} else if (valueType.equals("Float")) {
+							columnModel.setType(BigDecimal.class);
+						} else if (valueType.equals("Date")) {
+							columnModel.setType(Date.class);
+						}
+
+						dictTableModel.addColumnModel(columnModel);
+					}
+
+					DictTable dictTable = new DictTable(dictTableModel);
+					TableCache.getInstance().put(dictTable);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (SAXException e) {

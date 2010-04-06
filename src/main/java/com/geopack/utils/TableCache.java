@@ -1,4 +1,6 @@
-package com.geopack.models;
+package com.geopack.utils;
+
+import com.geopack.models.DictTable;
 
 import java.util.HashMap;
 import java.util.Map;

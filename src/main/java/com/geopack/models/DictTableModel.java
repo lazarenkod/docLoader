@@ -11,17 +11,12 @@ public class DictTableModel {
 	private String name;
 	private String description;
 	private List<DictColumnModel> columnModels = new ArrayList<DictColumnModel>();
+	private String srcFile;
 
-	public DictTableModel(String name, String description) {
+	public DictTableModel(String name, String description, String srcFile) {
 		this.name = name;
 		this.description = description;
-	}
-
-	public DictTableModel(String name, String description, List<DictColumnModel> columnModels) {
-		this.name = name;
-		this.description = description;
-		this.columnModels.clear();
-		this.columnModels.addAll(columnModels);
+		this.srcFile = srcFile;
 	}
 
 	public String getName() {
@@ -70,4 +65,11 @@ public class DictTableModel {
 		columnModels.remove(columnModel);
 	}
 
+	public String getSrcFile() {
+		return srcFile;
+	}
+
+	public void setSrcFile(String srcFile) {
+		this.srcFile = srcFile;
+	}
 }

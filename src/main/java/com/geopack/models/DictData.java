@@ -1,5 +1,7 @@
 package com.geopack.models;
 
+import com.geopack.utils.TableCache;
+
 /**
  * User: Lazarenko.Dmitry
  * Date: 05.04.2010
