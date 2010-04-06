@@ -21,6 +21,11 @@ import java.util.Date;
  * Date: 06.04.2010
  * Time: 12:33:24
  */
+
+/**
+ * Загрузчик данных из xml описания
+ */
+
 public class SchemeLoader {
 	public static final String SCHEME_PATH = "data";
 
@@ -59,7 +64,7 @@ public class SchemeLoader {
 			for (File file : schemeFiles) {
 				try {
 					final XmlTableModel xmlTableModel = loadScheme(file);
-					DictTableModel dictTableModel = new DictTableModel(xmlTableModel.getId(), xmlTableModel.getDesc(), xmlTableModel.getSrcFile());
+					DictTableModel dictTableModel = new DictTableModel(xmlTableModel.getId(), xmlTableModel.getDesc(), SCHEME_PATH + "/" + xmlTableModel.getSrcFile());
 					for (XmlField xmlField : xmlTableModel.getFields()) {
 						DictColumnModel columnModel = new DictColumnModel();
 						columnModel.setName(xmlField.getId());

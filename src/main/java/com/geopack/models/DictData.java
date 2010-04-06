@@ -7,6 +7,10 @@ import com.geopack.utils.TableCache;
  * Date: 05.04.2010
  * Time: 16:45:24
  */
+
+/**
+ *  ласс описывает €чейку таблицы
+ */
 public class DictData {
 	private Object rawData;
 
@@ -15,10 +19,9 @@ public class DictData {
 	}
 
 	/**
-	 *
 	 * @param columnModel
 	 * @return «начение в €чейке таблицы, либо ссылку на строку в другой таблице,
-	 * котора€ €вл€етс€ расшифровкой данного значени€
+	 *         котора€ €вл€етс€ расшифровкой данного значени€
 	 */
 	public Object getValue(DictColumnModel columnModel) {
 		if (columnModel.isKeyField()) {
@@ -34,6 +37,10 @@ public class DictData {
 		}
 	}
 
+	/**
+	 *
+	 * @return возвращает "сырое значение"
+	 */
 	public Object getRawData() {
 		return rawData;
 	}
@@ -49,5 +56,4 @@ public class DictData {
 	}
 
 
-	
 }

@@ -5,6 +5,10 @@ package com.geopack.models;
  * Date: 05.04.2010
  * Time: 12:53:37
  */
+
+/**
+ * Модель колонки таблицы
+ */
 public class DictColumnModel {
 	private String name;
 	private String description;
@@ -12,7 +16,7 @@ public class DictColumnModel {
 	private Class type;
 	private String srcTableName;
 	private String srcTableColumsName;
-    private String srcTableColumnViewName;
+	private String srcTableColumnViewName;
 
 	public String getName() {
 		return name;
@@ -62,11 +66,11 @@ public class DictColumnModel {
 		this.srcTableColumsName = srcTableColumsName;
 	}
 
-    public String getSrcTableColumnViewName() {
-        return srcTableColumnViewName;
-    }
+	public String getSrcTableColumnViewName() {
+		return srcTableColumnViewName;
+	}
 
-    public void setSrcTableColumnViewName(String srcTableColumnViewName) {
-        this.srcTableColumnViewName = srcTableColumnViewName;
-    }
+	public void setSrcTableColumnViewName(String srcTableColumnViewName) {
+		this.srcTableColumnViewName = srcTableColumnViewName;
+	}
 }

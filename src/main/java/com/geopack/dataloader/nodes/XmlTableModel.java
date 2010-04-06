@@ -50,6 +50,7 @@ public class XmlTableModel {
 	public void setFields(List<XmlField> xmlFields) {
 		this.fields = xmlFields;
 	}
+
 	public void addField(XmlField xmlField) {
 		fields.add(xmlField);
 	}

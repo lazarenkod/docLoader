@@ -6,9 +6,7 @@ package com.geopack.dataloader.nodes;
  * Time: 14:36:09
  */
 
-/**
- * Описывает поле field в xml схеме бд
- */
+/** Описывает поле field в xml схеме бд */
 public class XmlField {
 //	<field id="orgName" desc="Название организации" type="String" key="0" keyTable="" keyField="" keyDescField=""/>
 	//id поля
@@ -29,10 +27,7 @@ public class XmlField {
 	public XmlField() {
 	}
 
-	/**
-	 *
-	 * @return id поля
-	 */
+	/** @return id поля */
 	public String getId() {
 		return id;
 	}
@@ -41,10 +36,7 @@ public class XmlField {
 		this.id = id;
 	}
 
-	/**
-	 *
-	 * @return человеческое название
-	 */
+	/** @return человеческое название */
 	public String getDesc() {
 		return desc;
 	}
@@ -53,10 +45,7 @@ public class XmlField {
 		this.desc = desc;
 	}
 
-	/**
-	 *
-	 * @return тип значение
-	 */
+	/** @return тип значение */
 	public String getType() {
 		return type;
 	}
@@ -65,10 +54,7 @@ public class XmlField {
 		this.type = type;
 	}
 
-	/**
-	 *
-	 * @return признак ключевого поля 1- ключевое
-	 */
+	/** @return признак ключевого поля 1- ключевое */
 	public String getKey() {
 		return key;
 	}
@@ -77,10 +63,7 @@ public class XmlField {
 		this.key = key;
 	}
 
-	/**
-	 *
-	 * @return название таблицы - источника для ключевого поля
-	 */
+	/** @return название таблицы - источника для ключевого поля */
 	public String getKeyTable() {
 		return keyTable;
 	}
@@ -89,10 +72,7 @@ public class XmlField {
 		this.keyTable = keyTable;
 	}
 
-	/**
-	 *
-	 * @return название поля в таблице - источнике для ключевого поля
-	 */
+	/** @return название поля в таблице - источнике для ключевого поля */
 	public String getKeyField() {
 		return keyField;
 	}
@@ -101,10 +81,7 @@ public class XmlField {
 		this.keyField = keyField;
 	}
 
-	/**
-	 *
-	 * @return название поля-расшифровки в таблице-источнике для ключевого поля
-	 */
+	/** @return название поля-расшифровки в таблице-источнике для ключевого поля */
 	public String getKeyDescField() {
 		return keyDescField;
 	}

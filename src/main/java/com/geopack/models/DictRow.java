@@ -10,24 +10,28 @@ import java.util.List;
  * Time: 15:18:45
  */
 public class DictRow {
-	private List<DictData> data=new ArrayList<DictData>();
+	private List<DictData> dataList = new ArrayList<DictData>();
 
-	public List<DictData> getData() {
-		return Collections.unmodifiableList(data);
+	public List<DictData> getDataList() {
+		return Collections.unmodifiableList(dataList);
 	}
 
-	public DictRow(List<DictData> data) {
-		this.data = data;
+	public DictRow() {
+
 	}
 
-    public DictData getData(int columnIndex) {
-          return data.get(columnIndex);
-    }
+	public void addData(DictData data) {
+		dataList.add(data);
+	}
+
+	public DictData getData(int columnIndex) {
+		return dataList.get(columnIndex);
+	}
 
 	@Override
 	public String toString() {
 		return "DictRow{" +
-		       "data=" + data +
+		       "dataList=" + dataList +
 		       '}';
 	}
 }

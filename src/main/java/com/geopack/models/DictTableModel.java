@@ -1,6 +1,8 @@
 package com.geopack.models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: Lazarenko.Dmitry

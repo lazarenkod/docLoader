@@ -11,6 +11,10 @@ import java.util.List;
  * Date: 05.04.2010
  * Time: 15:01:10
  */
+
+/**
+ * Таблица данных справочника
+ */
 public class DictTable {
 
 	private DictTableModel model;
@@ -36,6 +40,10 @@ public class DictTable {
 		rows.add(row);
 	}
 
+	public void addRows(List<DictRow> rows) {
+		this.rows.addAll(rows);
+	}
+
 	public void setRowAt(int index, DictRow row) {
 		rows.set(index, row);
 	}
@@ -49,7 +57,7 @@ public class DictTable {
 	}
 
 	public DictData getValue(int rowIndex, int columnIndex) {
-		return rows.get(rowIndex).getData().get(columnIndex);
+		return rows.get(rowIndex).getDataList().get(columnIndex);
 	}
 
 	public DictData getValue(int rowIndex, String columnName) {
