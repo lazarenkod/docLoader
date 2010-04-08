@@ -7,28 +7,122 @@
     <groupId>docLoader</groupId>
     <artifactId>docLoader</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>Geolog</name>
+
+    <description>Эмулятор геологической системы</description>
+    <developers>
+        <developer>
+            <id>lazarenko.dmitriy</id>
+            <name>Lazarenko Dmitriy</name>
+            <email>lazarenkod@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+
+        <developer>
+            <id>mostovoy.vladislav</id>
+            <name>Mostovoy Vladislav</name>
+            <email>vladkimo@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+
+        <sourceDirectory>src/java/main</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>Windows-1251</encoding>
+                    <target>1.6</target>
+                    <source>1.6</source>
+                </configuration>
+            </plugin>
+
+            <!--<plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <packageName>com.otr.security.plugin.mandatinfo</packageName>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native2ascii-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>native2ascii</goal>
+                        </goals>
+                        <configuration>
+                            <src>src/main/resources</src>
+                            <includes>**/*.properties, **/*.xml</includes>
+                            <encoding>windows-1251</encoding>
+                            <dest>target/classes</dest>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <excludes>
+                        <exclude></exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.luuuis</groupId>
             <artifactId>jcalendar-tz</artifactId>
             <version>1.3.3-3</version>
         </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.4</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.0</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
