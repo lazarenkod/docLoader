@@ -1,6 +1,4 @@
-package com.geopack.dataloader;
-
-import com.geopack.ui.components.JDateTimeChooser;
+package com.geopack.ui.components;
 
 import javax.swing.*;
 
@@ -20,9 +18,9 @@ public class ComponentFactory {
 		return new JDateTimeChooser(false); 
 	}
 
-	public JSpinner createIntegerField() {
-		return null;
-//		return new JSpinner(new SpinnerNumberModel(0,0,Integer.MAX_VALUE));
-	}
+//	public JSpinner createIntegerField() {
+//		return null;
+////		return new JSpinner(new SpinnerNumberModel(0,0,Integer.MAX_VALUE));
+//	}
 
 }
