@@ -8,7 +8,7 @@ import java.text.ParseException;
  * User: Mostovoy.Vladislav
  * Date: 08.04.2010
  */
-public interface IElementModel {
+public interface IElement {
 	int getSeqNum();
 
 	String getName();

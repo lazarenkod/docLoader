@@ -15,13 +15,13 @@ import java.util.List;
 /**
  * Модель колонки таблицы
  */
-public class ElementModel implements IElementModel, IExtAttributes {
+public class Element implements IElement, IExtAttributes {
 
 	private Attribute value;
 
 	private List<StringAttribute> extAttributes;
 
-	public ElementModel(Attribute value) {
+	public Element(Attribute value) {
 		this.value = value;
 	}
 

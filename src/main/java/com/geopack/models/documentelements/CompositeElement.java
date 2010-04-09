@@ -9,29 +9,29 @@ import java.util.List;
  * User: Mostovoy.Vladislav
  * Date: 08.04.2010
  */
-public class CompositeElementlModel implements IExtAttributes {
+public class CompositeElement implements IExtAttributes {
 
-	private List<IElementModel> elements;
-	private List<CompositeElementlModel> containers;
+	private List<IElement> elements;
+	private List<CompositeElement> containers;
 
 	private List<StringAttribute> extAttributes;
 
-	public CompositeElementlModel() {
+	public CompositeElement() {
 	}
 
-	public List<IElementModel> getElements() {
+	public List<IElement> getElements() {
 		return elements;
 	}
 
-	public void setElements(List<IElementModel> elements) {
+	public void setElements(List<IElement> elements) {
 		this.elements = elements;
 	}
 
-	public List<CompositeElementlModel> getContainers() {
+	public List<CompositeElement> getContainers() {
 		return containers;
 	}
 
-	public void setContainers(List<CompositeElementlModel> containers) {
+	public void setContainers(List<CompositeElement> containers) {
 		this.containers = containers;
 	}
 

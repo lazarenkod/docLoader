@@ -1,6 +1,6 @@
 package com.geopack.models.documents;
 
-import com.geopack.models.documentelements.CompositeElementlModel;
+import com.geopack.models.documentelements.CompositeElement;
 
 /**
  * User: Mostovoy.Vladislav
@@ -8,13 +8,13 @@ import com.geopack.models.documentelements.CompositeElementlModel;
  */
 public class AbstractDocumentModel {
 
-	protected CompositeElementlModel root;
+	protected CompositeElement root;
 
-	public AbstractDocumentModel(CompositeElementlModel root) {
+	public AbstractDocumentModel(CompositeElement root) {
 		this.root = root;
 	}
 
-	public CompositeElementlModel getRoot() {
+	public CompositeElement getRoot() {
 		return root;
 	}
 

@@ -1,6 +1,6 @@
 package com.geopack.models.documents;
 
-import com.geopack.models.documentelements.CompositeElementlModel;
+import com.geopack.models.documentelements.CompositeElement;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class SimpleDocumentModel extends AbstractDocumentModel {
 
-	public SimpleDocumentModel(CompositeElementlModel root) {
+	public SimpleDocumentModel(CompositeElement root) {
 		super(root);
 	}
 
