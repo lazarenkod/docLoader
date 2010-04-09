@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Document id = "1" value="тестовый документ"  keywords = "ум, честь и совесть">
+<Document id="1" name="тестовый документ" keywords="ум, честь и совесть">
     <Attributes>
-        <attribute value="created" name="Петров"></attribute>
+        <Object name="Создатель" value="Петров" type="String" keywords="атрибут"/>
     </Attributes>
+
+    <Structure>
+        <Object type="URL" name="Раздел 1." value="content://3" keywords="структура"/>
+        <Object type="URL" name="Подраздел 1.1" value="content://4" keywords="структура"/>
+    </Structure>
+
     <Pages>
-        <Page num="1" page_file="342432513.jpeg"/>
-        <Page num="2" page_file="336768654.jpeg"/>
-        <!-- ... -->
-        <Page num="N" page_file="965844543.jpeg"/>
+
+        <Page id="2" num="1">
+            <Content id="3" num="1">
+                <Object type="String" name="Раздел 1." keywords="заголовок" style="font-weight:3"/>
+
+                <Content num="4">
+                    <Object name="Подраздел 1.1" keywords="заголовок" style="font-weight:2"/>
+
+                    <Object name="Месторождение 1" value="file://./965844543.jpeg"
+                            type="URL" valueType="Image" keywords="картинка"/>
+
+                    <Object name="Глубина месторождения 1" value="db://geolog.dbo.deposit_depth?1"
+                            type="URL" valueType="String" keywords="картинка"/>
+                </Content>
+
+                <Content num="5" visible="false">
+                    <Object name="Подраздел 1.2" keywords="заголовок" style="font-weight:2"/>
+                    <Object name="Месторождение 2" value="file://./336768654.jpeg"
+                            valueType="Image" type="URL" keywords="картинка"/>
+                </Content>
+            </Content>
+        </Page>
+
     </Pages>
-    <TOC>
-        <Header level="1" page="2" name="Раздел 1."/>
-        <Header level="2" page="2" name="Подраздел 1.1"/>
-        <Header level="2" page="2" name="Подразлел 1.2"/>
-        <Header level="2" page="4" name="Подразлел 1.3"/>
-        <Header level="2" page="5" name="Подразлел 1.4"/>
-        <Header level="3" page="5" name="Глава 1.4.1"/>
-        <Header level="3" page="5" name="Глава 1.4.2"/>
-        <Header level="1" page="6" name="Раздел 2." keywords="Мотогорская впадина"/>
-    </TOC>
-    <Objects>
-        <Object type="TABLE" page="1" name="Таблица 1. Составители документа" keywords="Иванов, Петров, Сидоров"/>
-        <Object type="TABLE" page="3" name="Таблица 2. Перечень оборудования"/>
-        <Object type="IMAGE" page="4" name="Рис. 2. Карта поисков"/>
-    </Objects>
 </Document>
 
 
