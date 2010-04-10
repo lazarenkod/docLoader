@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_17" class="java.beans.XMLDecoder"> 
+ <object class="com.jformdesigner.model.FormModel"> 
+  <void method="setProperty"> 
+   <string>i18n.autoExternalize</string> 
+   <boolean>true</boolean> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.bundlePackage</string> 
+   <string>com.geopack.gui</string> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.bundleName</string> 
+   <string>lang</string> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.keyPrefix</string> 
+   <string>DictListForm</string> 
+  </void> 
+  <void property="contentType"> 
+   <string>form/swing</string> 
+  </void> 
+  <void property="root"> 
+   <object class="com.jformdesigner.model.FormRoot"> 
+    <void method="add"> 
+     <object class="com.jformdesigner.model.FormContainer"> 
+      <string>javax.swing.JPanel</string> 
+      <object class="com.jformdesigner.model.FormLayoutManager"> 
+       <class>java.awt.BorderLayout</class> 
+      </object> 
+      <void property="name"> 
+       <string>this</string> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>javax.swing.JScrollPane</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>javax.swing.JScrollPane</class> 
+        </object> 
+        <void property="name"> 
+         <string>scrollPane1</string> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>javax.swing.JTable</string> 
+          <void method="setProperty"> 
+           <string>model</string> 
+           <object class="com.jformdesigner.model.SwingTableModel"> 
+            <object class="java.util.Vector"> 
+             <void method="add"> 
+              <object class="java.util.Vector"> 
+               <void method="add"> 
+                <string>936</string> 
+               </void> 
+               <void method="add"> 
+                <string>88195,40 </string> 
+               </void> 
+               <void method="add"> 
+                <string>201212,4</string> 
+               </void> 
+               <void method="add"> 
+                <string>1113,2</string> 
+               </void> 
+               <void method="add"> 
+                <string>111,0 </string> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <string>58,8</string> 
+               </void> 
+              </object> 
+             </void> 
+             <void method="add"> 
+              <object class="java.util.Vector"> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+               <void method="add"> 
+                <null/> 
+               </void> 
+              </object> 
+             </void> 
+            </object> 
+            <object class="java.util.Vector"> 
+             <void method="add"> 
+              <string>Скважина </string> 
+             </void> 
+             <void method="add"> 
+              <string>X</string> 
+             </void> 
+             <void method="add"> 
+              <string>Y</string> 
+             </void> 
+             <void method="add"> 
+              <string>Z</string> 
+             </void> 
+             <void method="add"> 
+              <string>Глубина </string> 
+             </void> 
+             <void method="add"> 
+              <string>Зона </string> 
+             </void> 
+             <void method="add"> 
+              <string>Профиль </string> 
+             </void> 
+            </object> 
+            <object class="java.util.Vector"> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+            </object> 
+            <object class="java.util.Vector"> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+            </object> 
+            <object class="java.util.Vector"> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+             <void method="add"> 
+              <null/> 
+             </void> 
+            </object> 
+           </object> 
+          </void> 
+          <void property="name"> 
+           <string>table1</string> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>Center</string> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+     <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+      <null/> 
+      <void method="setProperty"> 
+       <string>location</string> 
+       <object class="java.awt.Point"> 
+        <int>0</int> 
+        <int>0</int> 
+       </object> 
+      </void> 
+      <void method="setProperty"> 
+       <string>size</string> 
+       <object class="java.awt.Dimension"> 
+        <int>400</int> 
+        <int>300</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+ </object> 
+</java> 

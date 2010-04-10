@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tablemodel id="orgListTable" desc="Справочник организаций" srcFile="orgList.csv">
+    <fields>
+        <field id="orgName" desc="Название организации" type="String" key="0" keyTable="" keyField="" keyDescField="" />
+    </fields>
+</tablemodel>

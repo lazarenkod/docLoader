@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.6.0_17" class="java.beans.XMLDecoder"> 
  <object class="com.jformdesigner.model.FormModel"> 
+  <void method="setProperty"> 
+   <string>i18n.bundlePackage</string> 
+   <string>com.geopack.gui</string> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.bundleName</string> 
+   <string>lang</string> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.autoExternalize</string> 
+   <boolean>true</boolean> 
+  </void> 
+  <void method="setProperty"> 
+   <string>i18n.keyPrefix</string> 
+   <string>MainForm</string> 
+  </void> 
   <void property="contentType"> 
    <string>form/swing</string> 
   </void> 
@@ -12,6 +28,411 @@
       <object class="com.jformdesigner.model.FormLayoutManager"> 
        <class>java.awt.BorderLayout</class> 
       </object> 
+      <void method="setProperty"> 
+       <string>minimumSize</string> 
+       <object class="java.awt.Dimension"> 
+        <int>800</int> 
+        <int>500</int> 
+       </object> 
+      </void> 
+      <void method="setProperty"> 
+       <string>iconImage</string> 
+       <object class="com.jformdesigner.model.SwingIcon"> 
+        <int>0</int> 
+        <string>/com/geopack/pict/document_new.png</string> 
+       </object> 
+      </void> 
+      <void method="setProperty"> 
+       <string>defaultCloseOperation</string> 
+       <int>3</int> 
+      </void> 
+      <void method="setProperty"> 
+       <string>title</string> 
+       <object class="com.jformdesigner.model.FormMessage"> 
+        <null/> 
+        <string>MainForm.this.title</string> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>javax.swing.JSplitPane</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>javax.swing.JSplitPane</class> 
+        </object> 
+        <void method="setProperty"> 
+         <string>dividerLocation</string> 
+         <int>153</int> 
+        </void> 
+        <void property="name"> 
+         <string>splitPane1</string> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormContainer"> 
+          <string>javax.swing.JScrollPane</string> 
+          <object class="com.jformdesigner.model.FormLayoutManager"> 
+           <class>javax.swing.JScrollPane</class> 
+          </object> 
+          <void property="name"> 
+           <string>scrollPane1</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JTree</string> 
+            <void method="setProperty"> 
+             <string>rootVisible</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>showsRootHandles</string> 
+             <boolean>true</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>toggleClickCount</string> 
+             <int>1</int> 
+            </void> 
+            <void property="name"> 
+             <string>navigationTree</string> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>java.lang.String</class> 
+          <void method="setProperty"> 
+           <string>value</string> 
+           <string>left</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormContainer"> 
+          <string>javax.swing.JTabbedPane</string> 
+          <object class="com.jformdesigner.model.FormLayoutManager"> 
+           <class>javax.swing.JTabbedPane</class> 
+          </object> 
+          <void property="name"> 
+           <string>mainTabbedPane</string> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>java.lang.String</class> 
+          <void method="setProperty"> 
+           <string>value</string> 
+           <string>right</string> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>Center</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>javax.swing.JPanel</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>org.jdesktop.swingx.VerticalLayout</class> 
+        </object> 
+        <void property="name"> 
+         <string>toolBarPanel</string> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormContainer"> 
+          <string>javax.swing.JPanel</string> 
+          <object class="com.jformdesigner.model.FormLayoutManager"> 
+           <class>java.awt.BorderLayout</class> 
+          </object> 
+          <void property="name"> 
+           <string>ribbonPanel</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormContainer"> 
+          <string>javax.swing.JToolBar</string> 
+          <object class="com.jformdesigner.model.FormLayoutManager"> 
+           <class>javax.swing.JToolBar</class> 
+          </object> 
+          <void method="setProperty"> 
+           <string>rollover</string> 
+           <boolean>true</boolean> 
+          </void> 
+          <void property="name"> 
+           <string>actionsToolBar</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JButton</string> 
+            <void method="setProperty"> 
+             <string>icon</string> 
+             <object class="com.jformdesigner.model.SwingIcon"> 
+              <int>0</int> 
+              <string>/com/geopack/pict/document_new.png</string> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>toolTipText</string> 
+             <string>Создать</string> 
+            </void> 
+            <void method="setProperty"> 
+             <string>margin</string> 
+             <object class="java.awt.Insets"> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>enabled</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void property="name"> 
+             <string>addNewButton</string> 
+            </void> 
+            <void method="addEvent"> 
+             <object class="com.jformdesigner.model.FormEvent"> 
+              <string>java.awt.event.ActionListener</string> 
+              <string>actionPerformed</string> 
+              <string>addNewButtonActionPerformed</string> 
+              <boolean>true</boolean> 
+             </object> 
+            </void> 
+           </object> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JButton</string> 
+            <void method="setProperty"> 
+             <string>icon</string> 
+             <object class="com.jformdesigner.model.SwingIcon"> 
+              <int>0</int> 
+              <string>/com/geopack/pict/edit.png</string> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>toolTipText</string> 
+             <string>Редактировать</string> 
+            </void> 
+            <void method="setProperty"> 
+             <string>margin</string> 
+             <object class="java.awt.Insets"> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>enabled</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void property="name"> 
+             <string>editButton</string> 
+            </void> 
+            <void method="addEvent"> 
+             <object class="com.jformdesigner.model.FormEvent"> 
+              <string>java.awt.event.ActionListener</string> 
+              <string>actionPerformed</string> 
+              <string>editButtonActionPerformed</string> 
+              <boolean>true</boolean> 
+             </object> 
+            </void> 
+           </object> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JButton</string> 
+            <void method="setProperty"> 
+             <string>icon</string> 
+             <object class="com.jformdesigner.model.SwingIcon"> 
+              <int>0</int> 
+              <string>/com/geopack/pict/document_delete.png</string> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>toolTipText</string> 
+             <string>Удалить</string> 
+            </void> 
+            <void method="setProperty"> 
+             <string>preferredSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>53</int> 
+              <int>53</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>maximumSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>59</int> 
+              <int>59</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>margin</string> 
+             <object class="java.awt.Insets"> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>minimumSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>59</int> 
+              <int>59</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>enabled</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void property="name"> 
+             <string>deleteButton</string> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>North</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>javax.swing.JPanel</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>java.awt.FlowLayout</class> 
+        </object> 
+        <void property="name"> 
+         <string>statusPanel</string> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>javax.swing.JLabel</string> 
+          <void method="setProperty"> 
+           <string>text</string> 
+           <string>Текущий документ:</string> 
+          </void> 
+          <void property="name"> 
+           <string>label1</string> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>South</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>javax.swing.JPanel</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>java.awt.BorderLayout</class> 
+        </object> 
+        <void method="setProperty"> 
+         <string>visible</string> 
+         <boolean>false</boolean> 
+        </void> 
+        <void property="name"> 
+         <string>linkPanel</string> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormContainer"> 
+          <string>javax.swing.JScrollPane</string> 
+          <object class="com.jformdesigner.model.FormLayoutManager"> 
+           <class>javax.swing.JScrollPane</class> 
+          </object> 
+          <void property="name"> 
+           <string>scrollPane2</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JList</string> 
+            <void method="setProperty"> 
+             <string>minimumSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>100</int> 
+              <int>48</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>preferredSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>100</int> 
+              <int>48</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>model</string> 
+             <object class="javax.swing.DefaultListModel"> 
+              <void method="addElement"> 
+               <string>Документ1</string> 
+              </void> 
+              <void method="addElement"> 
+               <string>Тестовый документ</string> 
+              </void> 
+             </object> 
+            </void> 
+            <void property="name"> 
+             <string>list1</string> 
+            </void> 
+           </object> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>java.lang.String</class> 
+          <void method="setProperty"> 
+           <string>value</string> 
+           <string>Center</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>javax.swing.JLabel</string> 
+          <void method="setProperty"> 
+           <string>text</string> 
+           <object class="com.jformdesigner.model.FormMessage"> 
+            <null/> 
+            <string>MainForm.label2.text</string> 
+           </object> 
+          </void> 
+          <void property="name"> 
+           <string>label2</string> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>java.lang.String</class> 
+          <void method="setProperty"> 
+           <string>value</string> 
+           <string>North</string> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>East</string> 
+        </void> 
+       </object> 
+      </void> 
       <void property="menuBar"> 
        <object class="com.jformdesigner.model.FormContainer"> 
         <string>javax.swing.JMenuBar</string> 
@@ -19,7 +440,7 @@
          <class>javax.swing.JMenuBar</class> 
         </object> 
         <void property="name"> 
-         <string>menuBar1</string> 
+         <string>mainMenuBar</string> 
         </void> 
         <void method="add"> 
          <object class="com.jformdesigner.model.FormContainer"> 
@@ -32,7 +453,27 @@
            <string>Файл</string> 
           </void> 
           <void property="name"> 
-           <string>menu1</string> 
+           <string>fileMenu</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JMenuItem</string> 
+            <void method="setProperty"> 
+             <string>text</string> 
+             <string>Выход</string> 
+            </void> 
+            <void property="name"> 
+             <string>exitMenuItem</string> 
+            </void> 
+            <void method="addEvent"> 
+             <object class="com.jformdesigner.model.FormEvent"> 
+              <string>java.awt.event.ActionListener</string> 
+              <string>actionPerformed</string> 
+              <string>exitMenuItemActionPerformed</string> 
+              <boolean>true</boolean> 
+             </object> 
+            </void> 
+           </object> 
           </void> 
          </object> 
         </void> 
@@ -47,7 +488,19 @@
            <string>Инструменты</string> 
           </void> 
           <void property="name"> 
-           <string>menu2</string> 
+           <string>toolsMenu</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JMenuItem</string> 
+            <void method="setProperty"> 
+             <string>text</string> 
+             <string>Поиск</string> 
+            </void> 
+            <void property="name"> 
+             <string>menuItem1</string> 
+            </void> 
+           </object> 
           </void> 
          </object> 
         </void> 
@@ -62,7 +515,7 @@
            <string>Настройки</string> 
           </void> 
           <void property="name"> 
-           <string>menu3</string> 
+           <string>settingsMenu</string> 
           </void> 
          </object> 
         </void> 
@@ -77,7 +530,31 @@
            <string>Помощь</string> 
           </void> 
           <void property="name"> 
-           <string>menu4</string> 
+           <string>helpMenu</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JMenuItem</string> 
+            <void method="setProperty"> 
+             <string>text</string> 
+             <string>Интерактивная справка</string> 
+            </void> 
+            <void property="name"> 
+             <string>menuItem4</string> 
+            </void> 
+           </object> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormComponent"> 
+            <string>javax.swing.JMenuItem</string> 
+            <void method="setProperty"> 
+             <string>text</string> 
+             <string>О программе</string> 
+            </void> 
+            <void property="name"> 
+             <string>menuItem2</string> 
+            </void> 
+           </object> 
           </void> 
          </object> 
         </void> 
@@ -93,7 +570,7 @@
        <string>location</string> 
        <object class="java.awt.Point"> 
         <int>0</int> 
-        <int>0</int> 
+        <int>5</int> 
        </object> 
       </void> 
       <void method="setProperty"> 
