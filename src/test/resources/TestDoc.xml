@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document id="1" name="тестовый документ" keywords="ум, честь и совесть">
+    <Attributes>
+        <Object name="Создатель" value="Петров" type="String" keywords="атрибут"/>
+    </Attributes>
+
+    <Structure>
+        <Object type="URL" name="Раздел 1." value="content://3" keywords="структура"/>
+        <Object type="URL" name="Подраздел 1.1" value="content://4" keywords="структура"/>
+    </Structure>
+
+    <Pages>
+
+        <Page id="2" num="1">
+            <Content id="3" num="1">
+                <Object type="String" name="Раздел 1." keywords="заголовок" style="font-weight:3"/>
+
+                <Content num="4">
+                    <Object name="Подраздел 1.1" keywords="заголовок" style="font-weight:2"/>
+
+                    <Object name="Месторождение 1" value="file://./965844543.jpeg"
+                            type="URL" valueType="Image" keywords="картинка"/>
+
+                    <Object name="Глубина месторождения 1" value="db://geolog.dbo.deposit_depth?1"
+                            type="URL" valueType="String" keywords="картинка"/>
+                </Content>
+
+                <Content num="5" visible="false">
+                    <Object name="Подраздел 1.2" keywords="заголовок" style="font-weight:2"/>
+                    <Object name="Месторождение 2" value="file://./336768654.jpeg"
+                            valueType="Image" type="URL" keywords="картинка"/>
+                </Content>
+            </Content>
+        </Page>
+
+    </Pages>
+</Document>
+
+
