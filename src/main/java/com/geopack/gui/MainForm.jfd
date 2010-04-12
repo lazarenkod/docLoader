@@ -147,7 +147,51 @@
            <class>java.awt.BorderLayout</class> 
           </object> 
           <void property="name"> 
-           <string>ribbonPanel</string> 
+           <string>spherePanel</string> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormContainer"> 
+            <string>javax.swing.JTabbedPane</string> 
+            <object class="com.jformdesigner.model.FormLayoutManager"> 
+             <class>javax.swing.JTabbedPane</class> 
+            </object> 
+            <void method="setProperty"> 
+             <string>minimumSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>178</int> 
+              <int>18</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>preferredSize</string> 
+             <object class="java.awt.Dimension"> 
+              <int>178</int> 
+              <int>20</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
+             <string>tabLayoutPolicy</string> 
+             <int>1</int> 
+            </void> 
+            <void method="setProperty"> 
+             <string>requestFocusEnabled</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>border</string> 
+             <object class="com.jformdesigner.model.FormObject" field="NULL_VALUE"/> 
+            </void> 
+            <void property="name"> 
+             <string>sphereTabs</string> 
+            </void> 
+           </object> 
+           <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+            <class>java.lang.String</class> 
+            <void method="setProperty"> 
+             <string>value</string> 
+             <string>Center</string> 
+            </void> 
+           </object> 
           </void> 
          </object> 
         </void> 
@@ -325,7 +369,15 @@
            <string>Текущий документ:</string> 
           </void> 
           <void property="name"> 
-           <string>label1</string> 
+           <string>statusLabel</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>org.jdesktop.swingx.JXBusyLabel</string> 
+          <void property="name"> 
+           <string>progressLabel</string> 
           </void> 
          </object> 
         </void> 

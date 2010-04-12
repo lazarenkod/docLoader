@@ -4,10 +4,20 @@
 
 package com.geopack.gui;
 
-import com.geopack.maps.ShapeFrame;
+import com.geopack.maps.ShapeFiles;
+import com.geopack.maps.ShapePanel;
+import com.geopack.tabs.LayoutTab;
+import com.geopack.tabs.PresentationTab;
+import com.geopack.utils.ApplicationParams;
+import org.geotools.swing.JMapPane;
+import org.jdesktop.swingx.*;
 import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
@@ -15,140 +25,187 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
-/** @author Nick Tate */
+/**
+ * @author Nick Tate
+ */
 public class MainForm extends JFrame {
-	public MainForm() {
-		initComponents();
-		addDocumentTree();
-	}
+    public MainForm() {
+        initComponents();
+        setLayoutTabs(ApplicationParams.getInstance().getSelectedLayout().getTabList());
+        addDocumentTree();
 
-	private void addNewTab(String tabName, Component component) {
-		for (int i = 0; i < mainTabbedPane.getTabCount(); i++) {
-			if (mainTabbedPane.getTitleAt(i).equals(tabName)) {
-				mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(i));
-				return;
-			}
-		}
-		mainTabbedPane.addTab(tabName, component);
-		mainTabbedPane.setSelectedComponent(component);
-	}
-
-	private JPanel addDocListPanel(String docName) {
-		DocListPanel panel = new DocListPanel();
-		addNewTab(docName, panel);
-		return panel;
-	}
-
-	private JPanel addDicListPanel(String docName) {
-		DictListForm panel = new DictListForm();
-		addNewTab(docName, panel);
-		return panel;
-	}
-
-    private ShapeFrame addShapeFrame(String docName) {
-        ShapeFrame frame=new ShapeFrame();
-        frame.setVisible(true);
-//        addNewTab(docName,frame);
-        return frame;
     }
 
-	private void addDocumentTree() {
-		navigationTree.setModel(new DefaultTreeModel(
-				new DefaultMutableTreeNode("(root)") {
-					{
-						DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("Документы");
-						final DefaultMutableTreeNode doc1 = new DefaultMutableTreeNode("Первичные документы");
-						treeNode.add(doc1);
-						final DefaultMutableTreeNode doc2 = new DefaultMutableTreeNode("Вторичные документы");
-						treeNode.add(doc2);
-						add(treeNode);
-						treeNode = new DefaultMutableTreeNode("Справочники и классификаторы");
-						DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("Общие");
-						final DefaultMutableTreeNode dictKtad = new DefaultMutableTreeNode("Классификатор территориально-административного деления");
-						node2.add(dictKtad);
-						final DefaultMutableTreeNode dictOrg = new DefaultMutableTreeNode("Справочник организаций");
-						node2.add(dictOrg);
-						final DefaultMutableTreeNode dictSource = new DefaultMutableTreeNode("Справочник месторождений");
-						node2.add(dictSource);
-						final DefaultMutableTreeNode dictSourceZone = new DefaultMutableTreeNode("Справочник зон месторождений");
-						node2.add(dictSourceZone);
-						final DefaultMutableTreeNode dictTeritory = new DefaultMutableTreeNode("Справочник территорий");
-						node2.add(dictTeritory);
-						final DefaultMutableTreeNode dictGeologObjects = new DefaultMutableTreeNode("Справочник геологических объектов");
-						node2.add(dictGeologObjects);
-						treeNode.add(node2);
-						node2 = new DefaultMutableTreeNode("Прикладные");
-						final DefaultMutableTreeNode dictSkvag = new DefaultMutableTreeNode("Справочник скважин");
-						node2.add(dictSkvag);
-						final DefaultMutableTreeNode dictInclometry = new DefaultMutableTreeNode("Справочник инклинометрии скважин");
-						node2.add(dictInclometry);
-						treeNode.add(node2);
-						add(treeNode);
-						treeNode = new DefaultMutableTreeNode("Отчеты");
-						treeNode.add(new DefaultMutableTreeNode("Отчет о геологической экспедиции"));
-						add(treeNode);
+    private void addNewTab(String tabName, Component component) {
+        for (int i = 0; i < mainTabbedPane.getTabCount(); i++) {
+            if (mainTabbedPane.getTitleAt(i).equals(tabName)) {
+                mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(i));
+                return;
+            }
+        }
+        mainTabbedPane.addTab(tabName, component);
+        mainTabbedPane.setSelectedComponent(component);
+    }
+
+    public void setLayoutTabs(List<LayoutTab> layoutTabs) {
+        for (int i = 0, layoutTabsSize = layoutTabs.size(); i < layoutTabsSize; i++) {
+            LayoutTab layoutTab = layoutTabs.get(i);
+            sphereTabs.addTab(layoutTab.getName(), new LayoutTabPanel(layoutTab));
+            sphereTabs.setToolTipTextAt(i, layoutTab.getHint());
+            sphereTabs.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+
+                }
+            });
+        }
+    }
+
+    public void setTabSlideshow(List<PresentationTab> presentationTabs) {
+
+    }
+
+    private JPanel addDocListPanel(String docName) {
+        DocListPanel panel = new DocListPanel();
+        addNewTab(docName, panel);
+        return panel;
+    }
+
+    private JPanel addDicListPanel(String docName) {
+        DictListForm panel = new DictListForm();
+        addNewTab(docName, panel);
+        return panel;
+    }
+
+    private ShapePanel addShapePanel(final String docName) {
+        SwingWorker sw = new SwingWorker() {
+            @Override
+            protected Object doInBackground() throws Exception {
+                return new ShapeFiles();
+
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    ShapePanel shapePanel = new ShapePanel((JMapPane) get());
+                    addNewTab(docName, shapePanel);
+                    progressLabel.setBusy(false);
+                    progressLabel.setVisible(false);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ExecutionException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+
+            }
+        };
+        progressLabel.setText("Идет загрузка данных");
+        progressLabel.setBusy(true);
+        sw.execute();
+        return null;
+    }
+
+    private void addDocumentTree() {
+        navigationTree.setModel(new DefaultTreeModel(
+                new DefaultMutableTreeNode("(root)") {
+                    {
+                        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("Документы");
+                        final DefaultMutableTreeNode doc1 = new DefaultMutableTreeNode("Первичные документы");
+                        treeNode.add(doc1);
+                        final DefaultMutableTreeNode doc2 = new DefaultMutableTreeNode("Вторичные документы");
+                        treeNode.add(doc2);
+                        add(treeNode);
+                        treeNode = new DefaultMutableTreeNode("Справочники и классификаторы");
+                        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("Общие");
+                        final DefaultMutableTreeNode dictKtad = new DefaultMutableTreeNode("Классификатор территориально-административного деления");
+                        node2.add(dictKtad);
+                        final DefaultMutableTreeNode dictOrg = new DefaultMutableTreeNode("Справочник организаций");
+                        node2.add(dictOrg);
+                        final DefaultMutableTreeNode dictSource = new DefaultMutableTreeNode("Справочник месторождений");
+                        node2.add(dictSource);
+                        final DefaultMutableTreeNode dictSourceZone = new DefaultMutableTreeNode("Справочник зон месторождений");
+                        node2.add(dictSourceZone);
+                        final DefaultMutableTreeNode dictTeritory = new DefaultMutableTreeNode("Справочник территорий");
+                        node2.add(dictTeritory);
+                        final DefaultMutableTreeNode dictGeologObjects = new DefaultMutableTreeNode("Справочник геологических объектов");
+                        node2.add(dictGeologObjects);
+                        treeNode.add(node2);
+                        node2 = new DefaultMutableTreeNode("Прикладные");
+                        final DefaultMutableTreeNode dictSkvag = new DefaultMutableTreeNode("Справочник скважин");
+                        node2.add(dictSkvag);
+                        final DefaultMutableTreeNode dictInclometry = new DefaultMutableTreeNode("Справочник инклинометрии скважин");
+                        node2.add(dictInclometry);
+                        treeNode.add(node2);
+                        add(treeNode);
+                        treeNode = new DefaultMutableTreeNode("Отчеты");
+                        treeNode.add(new DefaultMutableTreeNode("Отчет о геологической экспедиции"));
+                        add(treeNode);
                         treeNode = new DefaultMutableTreeNode("Карты");
-						treeNode.add(new DefaultMutableTreeNode("Карта 1"));
-						add(treeNode);
-					}
-				}));
-		final MouseAdapter docTreeMouseAdapter = new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
-				if (selectedPath != null) {
-					final Object nodeText = selectedPath.getUserObject();
-					if (nodeText.equals("Первичные документы")||nodeText.equals("Вторичные документы")) {
-						addNewButton.setEnabled(true);
-						editButton.setEnabled(true);
-						deleteButton.setEnabled(true);
-						linkPanel.setVisible(true);
-						addDocListPanel(nodeText.toString());
-					}
-					if (nodeText.equals("Справочник организаций")) {
-						addNewButton.setEnabled(true);
-						editButton.setEnabled(true);
-						deleteButton.setEnabled(true);
-						addDicListPanel(nodeText.toString());
-					}
+                        treeNode.add(new DefaultMutableTreeNode("Карта 1"));
+                        add(treeNode);
+                    }
+                }));
+
+        navigationTree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
+                if (selectedPath != null) {
+                    final Object nodeText = selectedPath.getUserObject();
+                    statusLabel.setText("Текущий документ: " + nodeText);
+                    if (nodeText.equals("Первичные документы") || nodeText.equals("Вторичные документы")) {
+                        addNewButton.setEnabled(true);
+                        editButton.setEnabled(true);
+                        deleteButton.setEnabled(true);
+                        linkPanel.setVisible(true);
+                        addDocListPanel(nodeText.toString());
+                    }
+                    if (nodeText.equals("Справочник организаций")) {
+                        addNewButton.setEnabled(true);
+                        editButton.setEnabled(true);
+                        deleteButton.setEnabled(true);
+                        addDicListPanel(nodeText.toString());
+                    }
                     if (nodeText.equals("Карта 1")) {
-						addShapeFrame(nodeText.toString());
-					}
-				}
-			}
-		};
-		navigationTree.addMouseListener(docTreeMouseAdapter);
+                        addShapePanel(nodeText.toString());
+                    }
+                }
 
-	}
+            }
+        });
+    }
 
-	private void exitMenuItemActionPerformed(ActionEvent e) {
-		System.exit(0);
-	}
+    private void exitMenuItemActionPerformed(ActionEvent e) {
+        System.exit(0);
+    }
 
-	private void addNewButtonActionPerformed(ActionEvent e) {
-		final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
-		if (selectedPath != null) {
-			final Object nodeText = selectedPath.getUserObject();
-			if (nodeText.equals("Первичные документы")||nodeText.equals("Вторичные документы")) {
-				DocCreateDialog createDialog=new DocCreateDialog(MainForm.this);
-				createDialog.setModal(true);
-				createDialog.setVisible(true);
-			}
-		}
+    private void addNewButtonActionPerformed(ActionEvent e) {
+        final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
+        if (selectedPath != null) {
+            final Object nodeText = selectedPath.getUserObject();
+            if (nodeText.equals("Первичные документы") || nodeText.equals("Вторичные документы")) {
+                DocCreateDialog createDialog = new DocCreateDialog(MainForm.this);
+                createDialog.setModal(true);
+                createDialog.setVisible(true);
+            }
+        }
 
-	}
+    }
 
-	private void editButtonActionPerformed(ActionEvent e) {
-		DocEditDialog editDialog=new DocEditDialog(MainForm.this);
-		editDialog.setModal(true);
-		editDialog.setVisible(true);
-	}
+    private void editButtonActionPerformed(ActionEvent e) {
+        DocEditDialog editDialog = new DocEditDialog(MainForm.this);
+        editDialog.setModal(true);
+        editDialog.setVisible(true);
+    }
 
 
-	private void initComponents() {
-		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Nick Tate
         ResourceBundle bundle = ResourceBundle.getBundle("com.geopack.gui.lang");
         mainMenuBar = new JMenuBar();
@@ -165,13 +222,15 @@ public class MainForm extends JFrame {
         navigationTree = new JTree();
         mainTabbedPane = new JTabbedPane();
         toolBarPanel = new JPanel();
-        ribbonPanel = new JPanel();
+        spherePanel = new JPanel();
+        sphereTabs = new JTabbedPane();
         actionsToolBar = new JToolBar();
         addNewButton = new JButton();
         editButton = new JButton();
         deleteButton = new JButton();
         statusPanel = new JPanel();
-        label1 = new JLabel();
+        statusLabel = new JLabel();
+        progressLabel = new JXBusyLabel();
         linkPanel = new JPanel();
         scrollPane2 = new JScrollPane();
         list1 = new JList();
@@ -258,18 +317,33 @@ public class MainForm extends JFrame {
 
             // JFormDesigner evaluation mark
             toolBarPanel.setBorder(new javax.swing.border.CompoundBorder(
-                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-                    "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-                    javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-                    java.awt.Color.red), toolBarPanel.getBorder())); toolBarPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+                    new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                            "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                            javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                            java.awt.Color.red), toolBarPanel.getBorder()));
+            toolBarPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("border".equals(e.getPropertyName())) throw new RuntimeException();
+                }
+            });
 
             toolBarPanel.setLayout(new VerticalLayout());
 
-            //======== ribbonPanel ========
+            //======== spherePanel ========
             {
-                ribbonPanel.setLayout(new BorderLayout());
+                spherePanel.setLayout(new BorderLayout());
+
+                //======== sphereTabs ========
+                {
+                    sphereTabs.setMinimumSize(new Dimension(178, 18));
+                    sphereTabs.setPreferredSize(new Dimension(178, 20));
+                    sphereTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+                    sphereTabs.setRequestFocusEnabled(false);
+                    sphereTabs.setBorder(null);
+                }
+                spherePanel.add(sphereTabs, BorderLayout.CENTER);
             }
-            toolBarPanel.add(ribbonPanel);
+            toolBarPanel.add(spherePanel);
 
             //======== actionsToolBar ========
             {
@@ -317,9 +391,10 @@ public class MainForm extends JFrame {
         {
             statusPanel.setLayout(new FlowLayout());
 
-            //---- label1 ----
-            label1.setText("\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442:");
-            statusPanel.add(label1);
+            //---- statusLabel ----
+            statusLabel.setText("\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442:");
+            statusPanel.add(statusLabel);
+            statusPanel.add(progressLabel);
         }
         contentPane.add(statusPanel, BorderLayout.SOUTH);
 
@@ -336,11 +411,17 @@ public class MainForm extends JFrame {
                 list1.setPreferredSize(new Dimension(100, 48));
                 list1.setModel(new AbstractListModel() {
                     String[] values = {
-                        "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u04421",
-                        "\u0422\u0435\u0441\u0442\u043e\u0432\u044b\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442"
+                            "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u04421",
+                            "\u0422\u0435\u0441\u0442\u043e\u0432\u044b\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442"
                     };
-                    public int getSize() { return values.length; }
-                    public Object getElementAt(int i) { return values[i]; }
+
+                    public int getSize() {
+                        return values.length;
+                    }
+
+                    public Object getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 scrollPane2.setViewportView(list1);
             }
@@ -353,10 +434,10 @@ public class MainForm extends JFrame {
         contentPane.add(linkPanel, BorderLayout.EAST);
         pack();
         setLocationRelativeTo(getOwner());
-		// JFormDesigner - End of component initialization  //GEN-END:initComponents
-	}
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
 
-	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Nick Tate
     private JMenuBar mainMenuBar;
     private JMenu fileMenu;
@@ -372,16 +453,30 @@ public class MainForm extends JFrame {
     private JTree navigationTree;
     private JTabbedPane mainTabbedPane;
     private JPanel toolBarPanel;
-    private JPanel ribbonPanel;
+    private JPanel spherePanel;
+    private JTabbedPane sphereTabs;
     private JToolBar actionsToolBar;
     private JButton addNewButton;
     private JButton editButton;
     private JButton deleteButton;
     private JPanel statusPanel;
-    private JLabel label1;
+    private JLabel statusLabel;
+    private JXBusyLabel progressLabel;
     private JPanel linkPanel;
     private JScrollPane scrollPane2;
     private JList list1;
     private JLabel label2;
-	// JFormDesigner - End of variables declaration  //GEN-END:variables
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    private static class LayoutTabPanel extends JPanel {
+        private LayoutTab layoutTab;
+
+        private LayoutTabPanel(LayoutTab layout) {
+            this.layoutTab = layout;
+        }
+
+        public LayoutTab getLayoutTab() {
+            return layoutTab;
+        }
+    }
 }

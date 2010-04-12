@@ -49,7 +49,6 @@ public class SchemeLoader {
 		digester.addSetProperties("*/field", "keyDescField", "keyDescField");
 		digester.addSetNext("*/field", "addField");
 		return (XmlTableModel) digester.parse(file);
-
 	}
 
 	public void loadSchemes() {
