@@ -106,10 +106,34 @@
         </void> 
         <void method="add"> 
          <object class="com.jformdesigner.model.FormContainer"> 
-          <string>javax.swing.JTabbedPane</string> 
+          <string>com.jidesoft.swing.JideTabbedPane</string> 
           <object class="com.jformdesigner.model.FormLayoutManager"> 
            <class>javax.swing.JTabbedPane</class> 
           </object> 
+          <void method="setProperty"> 
+           <string>scrollSelectedTabOnWheel</string> 
+           <boolean>true</boolean> 
+          </void> 
+          <void method="setProperty"> 
+           <string>showCloseButtonOnSelectedTab</string> 
+           <boolean>true</boolean> 
+          </void> 
+          <void method="setProperty"> 
+           <string>showCloseButtonOnTab</string> 
+           <boolean>true</boolean> 
+          </void> 
+          <void method="setProperty"> 
+           <string>showTabButtons</string> 
+           <boolean>true</boolean> 
+          </void> 
+          <void method="setProperty"> 
+           <string>focusable</string> 
+           <boolean>false</boolean> 
+          </void> 
+          <void method="setProperty"> 
+           <string>boldActiveTab</string> 
+           <boolean>true</boolean> 
+          </void> 
           <void property="name"> 
            <string>mainTabbedPane</string> 
           </void> 
@@ -151,35 +175,40 @@
           </void> 
           <void method="add"> 
            <object class="com.jformdesigner.model.FormContainer"> 
-            <string>javax.swing.JTabbedPane</string> 
+            <string>com.jidesoft.swing.JideTabbedPane</string> 
             <object class="com.jformdesigner.model.FormLayoutManager"> 
              <class>javax.swing.JTabbedPane</class> 
             </object> 
             <void method="setProperty"> 
+             <string>boldActiveTab</string> 
+             <boolean>true</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>contentBorderInsets</string> 
+             <object class="java.awt.Insets"> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+              <int>0</int> 
+             </object> 
+            </void> 
+            <void method="setProperty"> 
              <string>minimumSize</string> 
              <object class="java.awt.Dimension"> 
-              <int>178</int> 
-              <int>18</int> 
+              <int>172</int> 
+              <int>22</int> 
              </object> 
             </void> 
             <void method="setProperty"> 
              <string>preferredSize</string> 
              <object class="java.awt.Dimension"> 
-              <int>178</int> 
-              <int>20</int> 
+              <int>172</int> 
+              <int>22</int> 
              </object> 
             </void> 
             <void method="setProperty"> 
-             <string>tabLayoutPolicy</string> 
-             <int>1</int> 
-            </void> 
-            <void method="setProperty"> 
-             <string>requestFocusEnabled</string> 
+             <string>focusable</string> 
              <boolean>false</boolean> 
-            </void> 
-            <void method="setProperty"> 
-             <string>border</string> 
-             <object class="com.jformdesigner.model.FormObject" field="NULL_VALUE"/> 
             </void> 
             <void property="name"> 
              <string>sphereTabs</string> 
@@ -376,6 +405,10 @@
         <void method="add"> 
          <object class="com.jformdesigner.model.FormComponent"> 
           <string>org.jdesktop.swingx.JXBusyLabel</string> 
+          <void method="setProperty"> 
+           <string>visible</string> 
+           <boolean>false</boolean> 
+          </void> 
           <void property="name"> 
            <string>progressLabel</string> 
           </void> 

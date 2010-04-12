@@ -5,6 +5,6 @@ Class-Path: flamingo.jar vecmath-1.3.2.jar miglayout-3.7-swing.jar jts
  jar gt-data-2.6.3.jar gt-main-2.6.3.jar gt-coverage-2.6.3.jar gt-cql-
  2.6.3.jar geoapi-pending-2.3-M1.jar gt-api-2.6.3.jar commons-logging-
  1.1.1.jar geoapi-2.3-M1.jar commons-beanutils-1.7.0.jar TableLayout.j
- ar
+ ar looks-1.2.2.jar
 Main-Class: com.geopack.Main
 

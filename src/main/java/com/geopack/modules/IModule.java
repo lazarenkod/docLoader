@@ -1,5 +1,7 @@
 package com.geopack.modules;
 
+import javax.swing.*;
+
 /**
  * User: Administrator
  * Date: 11.04.2010
@@ -10,5 +12,20 @@ package com.geopack.modules;
  * Интрерфейс, который должны реализовывать все модули системы
  */
 public interface IModule {
-    String getModuleName();
+	/**
+	 * Системное имя модуля
+	 * @return
+	 */
+	String getName();
+
+	/**
+	 * Возвращает панель содержимого панели модуля
+	 * @return
+	 */
+	JPanel getContentPanel();
+
+	/**
+	 * Должен вызывать ApplicationParams.getInstance().registerModule(this)
+	 */
+	void registerInModuleList();
 }

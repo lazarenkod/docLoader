@@ -1,8 +1,11 @@
 package com.geopack.utils;
 
+import com.geopack.modules.IModule;
 import com.geopack.tabs.TbLayout;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Administrator
@@ -14,6 +17,8 @@ public class ApplicationParams {
     private TbLayout selectedLayout;
 
     private List<TbLayout> loadedLayouts;
+
+	private Map<String,IModule> moduleMap=new HashMap<String, IModule>();
 
     private static ApplicationParams instance;
 
@@ -41,4 +46,16 @@ public class ApplicationParams {
     public void setLoadedLayouts(List<TbLayout> loadedLayouts) {
         this.loadedLayouts = loadedLayouts;
     }
+
+	public void registerModule(IModule module) {
+		moduleMap.put(module.getName(),module);
+	}
+
+	public IModule getModule(String moduleName) {
+		return moduleMap.get(moduleName);
+	}
+
+	public Map<String, IModule> getModuleMap() {
+		return moduleMap;
+	}
 }
