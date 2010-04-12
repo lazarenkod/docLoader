@@ -41,7 +41,7 @@ ALTER TABLE doc_content OWNER TO postgres;
 
 CREATE TABLE doc_structure_trees
 (
-  id integer NOT NULL DEFAULT nextval('doc_trees_id_seq'::regclass),
+  id serial NOT NULL,
   id_parent integer NOT NULL,
   "name" character varying(256),
   id_doc integer NOT NULL,
