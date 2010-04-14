@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Layouts>
+	<Layout name="Комплекс для Читы">
+		<Tab name="НСИ" module="MDM" hint="Классификаторы и справочники"/>
+		<Tab name="Хранилище" module="DocStore" hint="Хранилище файлов и документов"/>
+		<Tab name="Документы" module="Knowledge" hint="База знаний"/>
+		<Tab name="Геоданные" module="DataBase" hint="База геологических данных"/>
+		<Tab name="Карты" module="GIS" hint="Работа с картами и ГИС"/>
+		<Tab name="Модели" module="GeoViewer" hint="Выбор и просмотр 2D/3D геологических моделей"/>
+		<Tab name="Анализ" module="Analytics" hint="Аналитические функции"/>
+		<Tab name="Отчёты" module="Reporting" hint="Формирование отчётности"/>
+		<Tab name="Проекты" module="Projects" hint="Управление проектами"/>
+		<Tab name="Личная" module="UserPage" hint="Личная страница пользователя"/>
+		<Tab name="Обмен" module="Exchange" hint="Обмен, импорт и экспорт данных"/>
+		<Tab name="Управление" module="Configure" hint="Настройка и управление системой"/>
+		<Tab name="Пользователи" module="Admin" hint="Настройка и управление пользователями"/>
+		<Tab name="Личная" module="UserPage" hint="Личная страница пользователя"/>
+		<Tab name="Обмен" module="Exchange" hint="Обмен, импорт и экспорт данных"/>
+		<Tab name="Управление" module="Configure" hint="Настройка и управление системой"/>
+		<Tab name="Пользователи" module="Admin" hint="Настройка и управление пользователями"/>
+	</Layout>
+	<Layout name="Перспективы развития">
+		<Tab name="НСИ" module="MDM" hint="Классификаторы и справочники"/>
+		<Tab name="Хранилище" module="DocStore" hint="Хранилище файлов и документов"/>
+		<Tab name="Документы" module="Knowledge" hint="База знаний"/>
+		<Tab name="Геоданные" module="DataBase" hint="База геологических данных"/>
+		<Tab name="Карты" module="GIS" hint="Работа с картами и ГИС"/>
+		<Tab name="Модели" module="GeoViewer" hint="Выбор и просмотр 2D/3D геологических моделей"/>
+		<Tab name="Анализ" module="Analytics" hint="Аналитические функции"/>
+		<Tab name="Отчёты" module="Reporting" hint="Формирование отчётности"/>
+		<Tab name="Проекты" module="Projects" hint="Управление проектами"/>
+		<Tab name="Группы" module="Collaboration" hint="Групповая работа"/>
+		<Tab name="Процессы" module="BPM" hint="Бизнес-процессы и потоки работ"/>
+		<Tab name="Личная" module="UserPage" hint="Личная страница пользователя"/>
+		<Tab name="Обмен" module="Exchange" hint="Обмен, импорт и экспорт данных"/>
+		<Tab name="Управление" module="Configure" hint="Настройка и управление системой"/>
+		<Tab name="Пользователи" module="Admin" hint="Настройка и управление пользователями"/>
+	</Layout>
+	<Layout name="Имитация функций">
+		<Tab name="НСИ" module="MDM" hint="Классификаторы и справочники"/>
+		<Tab name="Хранилище" module="DocStore" hint="Хранилище файлов и документов"/>
+		<Tab name="Документы" module="Knowledge" hint="База знаний"/>
+		<Tab name="Геоданные" module="DataBase" hint="База геологических данных"/>
+		<Tab name="Карты" module="GIS" hint="Работа с картами и ГИС"/>
+		<Tab name="Модели" module="GeoViewer" hint="Выбор и просмотр 2D/3D геологических моделей"/>
+	</Layout>
+</Layouts>
+
+

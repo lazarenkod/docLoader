@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Tabs>
+	<Tab module="Analytics" delay="2000">
+		<Slide path="1.jpg"/>
+		<Slide path="2.jpg"/>
+		<Slide path="3.jpg"/>
+	</Tab>
+	<Tab module="Reporting">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="Projects">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="Collaboration">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="BPM">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="UserPage">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="Exchange">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="Configure">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+	<Tab module="Admin">
+		<Slide path="\slides\stab1.jpg"/>
+		<Slide path="\slides\stab2.jpg"/>
+		<Slide path="\slides\stab3.jpg"/>
+	</Tab>
+</Tabs>
+
+
