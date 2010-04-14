@@ -20,6 +20,14 @@ public class DictRow {
 
 	}
 
+    public String[] toArray() {
+        String[] result=new String[dataList.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i]=dataList.get(i).getRawData().toString();
+        }
+        return result;
+    }
+
 	public void addData(DictData data) {
 		dataList.add(data);
 	}

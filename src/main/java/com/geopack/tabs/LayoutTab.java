@@ -36,4 +36,26 @@ public class LayoutTab {
     public void setHint(String hint) {
         this.hint = hint;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LayoutTab layoutTab = (LayoutTab) o;
+
+        if (hint != null ? !hint.equals(layoutTab.hint) : layoutTab.hint != null) return false;
+        if (!moduleName.equals(layoutTab.moduleName)) return false;
+        if (!name.equals(layoutTab.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + moduleName.hashCode();
+        result = 31 * result + (hint != null ? hint.hashCode() : 0);
+        return result;
+    }
 }

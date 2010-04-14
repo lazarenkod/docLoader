@@ -6,6 +6,7 @@
 package com.geopack;
 
 import com.geopack.dataloader.LayoutTabLoader;
+import com.geopack.dataloader.PresentationTabLoader;
 import com.geopack.gui.LoginDialog;
 import com.jidesoft.plaf.LookAndFeelFactory;
 
@@ -42,6 +43,8 @@ public class Main {
 
 	    LayoutTabLoader tabLoader=new LayoutTabLoader();
         tabLoader.loadLayouts();
+        PresentationTabLoader presentationTabLoader=new PresentationTabLoader();
+        presentationTabLoader.loadModulesSlides();
         LoginDialog loginDialog=new LoginDialog();
         loginDialog.setVisible(true);
     }

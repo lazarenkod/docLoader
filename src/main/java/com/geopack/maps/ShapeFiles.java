@@ -4,73 +4,57 @@
  */
 package com.geopack.maps;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+import com.vividsolutions.jts.geom.*;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.DefaultRepository;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.SchemaException;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.map.DefaultMapContext;
 import org.geotools.map.DefaultMapLayer;
 import org.geotools.map.MapContext;
 import org.geotools.map.MapLayer;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.renderer.lite.StreamingRenderer;
-import org.geotools.styling.FeatureTypeStyle;
-import org.geotools.styling.LineSymbolizer;
-import org.geotools.styling.Rule;
+import org.geotools.styling.*;
 import org.geotools.styling.Stroke;
-import org.geotools.styling.Style;
-import org.geotools.styling.StyleBuilder;
-import org.geotools.styling.StyleFactory;
-import org.geotools.styling.TextSymbolizer;
-import org.geotools.swing.JMapFrame;
-import org.opengis.feature.simple.SimpleFeatureType;
+import org.geotools.swing.JMapPane;
 import org.opengis.feature.simple.SimpleFeature;
-import org.geotools.feature.FeatureCollections;
-import org.geotools.feature.SchemaException;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.FilterFactory;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
-
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.geotools.styling.Graphic;
-import org.geotools.styling.Mark;
-import org.geotools.styling.PointSymbolizer;
-import org.geotools.styling.SLDParser;
-import org.geotools.swing.JMapPane;
-
-import java.util.List;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Отображение карт
- *
  * @author pavel.shatrov
  */
-public class ShapeFiles extends JMapPane {
+public class ShapeFiles extends JMapPane
+{
     private DefaultRepository repository = new DefaultRepository();
     StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory(null);
     FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory(null);
     private MapContext context;
     private String title = "Карта";
     FeatureCollection<SimpleFeatureType, SimpleFeature> collection = null;
+    FeatureCollection<SimpleFeatureType, SimpleFeature> polyCollection = null;
 
-    public ShapeFiles() {
+    public ShapeFiles()
+    {
         setBackground(Color.WHITE);
         //enableLayerTable(true);
         //enableStatusBar(true);
@@ -79,39 +63,47 @@ public class ShapeFiles extends JMapPane {
 
         // Label layers
         collection = FeatureCollections.newCollection();
+        polyCollection = FeatureCollections.newCollection();
 
         parseCSV();
 
         workWith();
 
-        addLabelLayer();
+        //addLabelLayer();
+        addPolygonLayer();
 
         //setSize(850, 600);
         //setLocation(getGraphicsConfiguration().getBounds().width/2 - getBounds().width/2, getGraphicsConfiguration().getBounds().height/2 - getSize().height/2);
         //setVisible(true);
     }
 
-    private void parseCSV() {
+    private void parseCSV()
+    {
         GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
 
         SimpleFeatureType TYPE = null;
-        try {
-            TYPE = DataUtilities.createType(
+        try
+        {
+            TYPE  = DataUtilities.createType(
                     "Location", // <- the name for our feature type
-                    "location:Point," + // <- the geometry attribute: Point type
-                            "name:String" // <- a String attribute
-            );
-        } catch (SchemaException schemaException) {
+                    "location:Point,"+ // <- the geometry attribute: Point type
+                    "name:String" // <- a String attribute
+                    );
+        } catch (SchemaException schemaException)
+        {
             schemaException.printStackTrace();
         }
         SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(TYPE);
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("data/points.csv"));
-            try {
+        try
+        {
+            BufferedReader reader = new BufferedReader(new FileReader("data/maps/points.csv"));
+            try
+            {
                 String line = reader.readLine();
                 //System.out.println("Header: " + line);
 
-                for (line = reader.readLine(); line != null; line = reader.readLine()) {
+                for (line = reader.readLine(); line != null; line = reader.readLine())
+                {
                     String tokens[] = line.split("\\,");
 
                     double longitude = Double.parseDouble(tokens[0]);
@@ -120,6 +112,7 @@ public class ShapeFiles extends JMapPane {
 
                     /* Longitude (= x coord) first ! */
                     Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+                    //createPolygon(geometryFactory);
 
                     featureBuilder.add(point);
                     featureBuilder.add(name);
@@ -127,27 +120,61 @@ public class ShapeFiles extends JMapPane {
                     collection.add(feature);
                 }
 
-            } finally {
+            } finally
+            {
                 reader.close();
             }
-        } catch (IOException iOException) {
-        } catch (NumberFormatException numberFormatException) {
+        } catch (IOException iOException)
+        {
+        } catch (NumberFormatException numberFormatException)
+        {
         }
     }
 
-    private void workWith() {
+    private void createPolygon(GeometryFactory geometryFactory)
+    {
+        Coordinate[] bbox = new Coordinate[5];
+        bbox[0] = new Coordinate(679916.6, 5727884.75);
+        bbox[1] = new Coordinate(699380.37, 5728327.10);
+        bbox[2] = new Coordinate(701444.71, 5716678.33);
+        bbox[3] = new Coordinate(684635.09, 5716530.88);
+        bbox[4] = new Coordinate(679916.6, 5727884.75);
+
+        LinearRing bboxRing = geometryFactory.createLinearRing(bbox);
+        Polygon bboxPolygon = geometryFactory.createPolygon(bboxRing, null);
+
+        SimpleFeatureType st = null;
+        try
+        {
+            st = (SimpleFeatureType) DataUtilities.createType("Location", "Location:Polygon,name:String");
+        } catch (SchemaException schemaException)
+        {
+            schemaException.printStackTrace();
+        }
+        SimpleFeature featurePoly = SimpleFeatureBuilder.build(st, new Object[] { bboxPolygon, "wvcwecwecwecewc"}, null);
+        polyCollection.add(featurePoly);
+    }
+
+    private void workWith()
+    {
         // Все shp файлы здесь
-        File dataDir = new File("data");
-        if (dataDir.isDirectory()) {
+        File dataDir = new File("data/maps");
+        if (dataDir.isDirectory())
+        {
             String[] ls = dataDir.list();
 
-            for (String string : ls) {
-                if (string.endsWith(".shp")) {
-                    File f = new File("data/" + string);
+            for (int i = 0; i < ls.length; i++)
+            {
+                String string = ls[i];
+                if (string.endsWith(".shp"))
+                {
+                    File f = new File("data/maps/" + string);
 
-                    try {
+                    try
+                    {
                         addShapefile(f.toURL(), string);
-                    } catch (IOException iOException) {
+                    } catch (IOException iOException)
+                    {
                         iOException.printStackTrace();
                     }
                 }
@@ -156,50 +183,61 @@ public class ShapeFiles extends JMapPane {
         }
     }
 
-    public void addShapefile(URL shapefileURL, String name) {
-        if (shapefileURL == null) {
+    public void addShapefile(URL shapefileURL, String name)
+    {
+        if (shapefileURL == null)
+        {
             throw new IllegalArgumentException("shapefileURL must not be null");
         }
         ShapefileDataStore dstore = null;
 
         DataStore found = repository.dataStore(shapefileURL.toString());
-        if (found != null && found instanceof ShapefileDataStore) {
+        if (found != null && found instanceof ShapefileDataStore)
+        {
             dstore = (ShapefileDataStore) found;
-        } else {
-            try {
+        } else
+        {
+            try
+            {
                 dstore = new ShapefileDataStore(shapefileURL);
-            } catch (MalformedURLException urlEx) {
+            } catch (MalformedURLException urlEx)
+            {
                 throw new RuntimeException(urlEx);
             }
-            try {
+            try
+            {
                 repository.register(shapefileURL.toString(), dstore);
-            } catch (IOException iOException) {
+            } catch (IOException iOException)
+            {
                 iOException.printStackTrace();
             }
         }
-
-        try {
+ 
+        try
+        {
             dstore.getSchema();
-        } catch (IOException iOException) {
+        } catch (IOException iOException)
+        {
             iOException.printStackTrace();
         }
 
         String typeName = dstore.getTypeNames()[0];
         Style style = null;
 
-        // Создаю стили
-
-        File styleFile = new File("Hydrogeology.sld");
-        if (styleFile.exists()) {
-            style = createFromSLD(name);
-        } else {
+        // Создаю стили        
+       
+       style = createFromSLD(name);
+       if(style == null)
+       {
             style = createLineStyle(false);
-        }
-
+       }
+       
         MapLayer layer = null;
-        try {
+        try
+        {
             layer = new DefaultMapLayer(dstore.getFeatureSource(typeName), style);
-        } catch (IOException iOException) {
+        } catch (IOException iOException)
+        {
             iOException.printStackTrace();
         }
         addLayer(layer);
@@ -214,21 +252,31 @@ public class ShapeFiles extends JMapPane {
         addLayer(layer2);*/
     }
 
-    private void addLabelLayer() {
+    private void addLabelLayer()
+    {
         MapLayer layer2 = null;
-        Style style2 = createPointStyle();// createLineStyle(true);
+        Style style2 = createPointStyle();
         writeLabel(style2);
 
-
-        layer2 = new DefaultMapLayer(collection /*dstore.getFeatureSource(typeName)*/, style2);
-
-        addLayer(layer2);
+        addLayer(new DefaultMapLayer(collection, style2));
     }
 
-    public void addLayer(MapLayer layer) {
-        if (context == null) {
+    private void addPolygonLayer()
+    {
+        GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory(null);
+        createPolygon(geometryFactory);
+        Style st = createLineStyle(false);
+        writeLabel(st);
+        addLayer(new DefaultMapLayer(polyCollection, st));
+    }
+
+    public void addLayer(MapLayer layer)
+    {
+        if (context == null)
+        {
             CoordinateReferenceSystem crs = layer.getBounds().getCoordinateReferenceSystem();
-            if (crs == null) {
+            if (crs == null)
+            {
                 crs = DefaultGeographicCRS.WGS84;
             }
             context = new DefaultMapContext(crs);
@@ -240,26 +288,29 @@ public class ShapeFiles extends JMapPane {
         context.addLayer(layer);
     }
 
-    private Style createLineStyle(boolean usetransp) {
+    private Style createLineStyle(boolean usetransp)
+    {
         Stroke stroke = null;
-        if (usetransp) {
+        if (usetransp == true)
+        {
             stroke = styleFactory.createStroke(
                     filterFactory.literal(Color.BLUE),
                     filterFactory.literal(1), filterFactory.literal(0.1d));
-        } else {
+        }else
+        {
             stroke = styleFactory.createStroke(
                     filterFactory.literal(Color.BLACK),
                     filterFactory.literal(1));
         }
 
         LineSymbolizer sym = styleFactory.createLineSymbolizer(stroke, null);
-
+        
 
         Rule rule = styleFactory.createRule();
         rule.symbolizers().add(sym);
         FeatureTypeStyle fts = styleFactory.createFeatureTypeStyle(new Rule[]
                 {
-                        rule
+                    rule
                 });
 
         Style style = styleFactory.createStyle();
@@ -268,18 +319,19 @@ public class ShapeFiles extends JMapPane {
         return style;
     }
 
-    private Style writeLabel(Style style) {
+    private Style writeLabel(Style style)
+    {
         StyleBuilder styleBuilder = new StyleBuilder();
-        TextSymbolizer textSym = styleBuilder.createStaticTextSymbolizer(Color.BLUE, styleBuilder.createFont("Arial", false, true, 12), "Документ 1");
+        TextSymbolizer textSym = styleBuilder.createStaticTextSymbolizer(Color.BLACK, styleBuilder.createFont("Arial", false, true, 10), "Месторождение Лунное");
         //textSym.setHalo(styleBuilder.createHalo(Color.WHITE, 1));
         textSym.setPlacement(styleBuilder.createPointPlacement(0.5, 1.5, 0, 0, 0));
         //textSym.addToOptions("spaceAround", "-1");
         Rule rule4 = styleBuilder.createRule(textSym);
 
         Rule[] rules =
-                {
-                        rule4
-                };
+        {
+            rule4
+        };
         FeatureTypeStyle featureTypeStyle = styleBuilder.createFeatureTypeStyle("Feature", rules);
         style.addFeatureTypeStyle(featureTypeStyle);
 
@@ -311,19 +363,22 @@ public class ShapeFiles extends JMapPane {
         return style;
     }
 
-    private Style createFromSLD(String name) {
-        String[] sp = name.split(".shp");
-        String sldFile = sp[0];
-        File sld = new File("data/" + sldFile + ".sld");
-        try {
-            SLDParser stylereader = new SLDParser(styleFactory, sld.toURI().toURL());
-            Style[] style = stylereader.readXML();
+       private Style createFromSLD(String name) 
+       {
+           String[] sp = name.split(".shp");
+           String sldFile = sp[0];
+           File sld = new File("data/maps/"+sldFile + ".sld");
+           try
+           {
+               SLDParser stylereader = new SLDParser(styleFactory, sld.toURI().toURL());
+               Style[] style = stylereader.readXML();
+               
+               return style[0];
 
-            return style[0];
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+           } catch (Exception e)
+           {
+               e.printStackTrace();
+           }
+           return null;
     }
 }

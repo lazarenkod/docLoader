@@ -5,25 +5,29 @@
 package com.geopack.gui;
 
 import com.geopack.maps.ShapeFiles;
-import com.geopack.maps.ShapePanel;
+import com.geopack.modules.IModule;
+import com.geopack.modules.dicts.DictsModule;
+import com.geopack.modules.documents.DocEditDialog;
+import com.geopack.modules.documents.DocumentsModule;
+import com.geopack.modules.gis.MapsModule;
+import com.geopack.modules.knowbase.KnowledgeBaseModule;
+import com.geopack.modules.slideshow.SlideShowPanel;
 import com.geopack.tabs.LayoutTab;
 import com.geopack.tabs.PresentationTab;
 import com.geopack.utils.ApplicationParams;
-import com.jidesoft.swing.*;
-import org.geotools.swing.JMapPane;
+import com.jidesoft.swing.JideTabbedPane;
 import org.jdesktop.swingx.JXBusyLabel;
 import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -32,59 +36,10 @@ import java.util.concurrent.ExecutionException;
  * @author Nick Tate
  */
 public class MainForm extends JFrame {
+    private int selectedDocTabIndex = -1;
+
     public MainForm() {
         initComponents();
-        setLayoutTabs(ApplicationParams.getInstance().getSelectedLayout().getTabList());
-        addDocumentTree();
-
-    }
-
-    private void addNewTab(String tabName, Component component) {
-        for (int i = 0; i < mainTabbedPane.getTabCount(); i++) {
-            if (mainTabbedPane.getTitleAt(i).equals(tabName)) {
-                mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(i));
-                return;
-            }
-        }
-        mainTabbedPane.addTab(tabName, component);
-        mainTabbedPane.setSelectedComponent(component);
-    }
-
-    public void setLayoutTabs(List<LayoutTab> layoutTabs) {
-	    JMenu menu=new JMenu("Модули");
-        for (int i = 0, layoutTabsSize = layoutTabs.size(); i < layoutTabsSize; i++) {
-            LayoutTab layoutTab = layoutTabs.get(i);
-	        JMenuItem menuItem=new LayoutMenuItem(layoutTab);
-	        menu.add(menuItem);
-            sphereTabs.addTab(layoutTab.getName(), new LayoutTabPanel(layoutTab));
-            sphereTabs.setToolTipTextAt(i, layoutTab.getHint());
-            sphereTabs.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-	                //todo придумать, как вызывать функциональность нужного модуля
-                }
-            });
-        }
-	    mainMenuBar.add(menu);
-    }
-
-    public void setTabSlideshow(List<PresentationTab> presentationTabs) {
-
-    }
-
-    private JPanel addDocListPanel(String docName) {
-        DocListPanel panel = new DocListPanel();
-        addNewTab(docName, panel);
-        return panel;
-    }
-
-    private JPanel addDicListPanel(String docName) {
-        DictListForm panel = new DictListForm();
-        addNewTab(docName, panel);
-        return panel;
-    }
-
-    private ShapePanel addShapePanel(final String docName) {
         SwingWorker sw = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
@@ -95,8 +50,7 @@ public class MainForm extends JFrame {
             @Override
             protected void done() {
                 try {
-                    ShapePanel shapePanel = new ShapePanel((JMapPane) get());
-                    addNewTab(docName, shapePanel);
+                    ApplicationParams.getInstance().setLoadedShapes((ShapeFiles) get());
                     progressLabel.setBusy(false);
                     progressLabel.setVisible(false);
                 } catch (InterruptedException e) {
@@ -107,103 +61,166 @@ public class MainForm extends JFrame {
 
             }
         };
-        progressLabel.setText("Идет загрузка данных");
+        mainTabbedPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == 3) {
+                    selectedDocTabIndex = mainTabbedPane.getSelectedIndex();
+                    if (!mainTabbedPane.getTitleAt(selectedDocTabIndex).startsWith("* ")) {
+                        pinMenuItem.setText("Закрепить вкладку");
+                    } else {
+                        pinMenuItem.setText("Открепить вкладку");
+                    }
+                    tabsPopupMenu.show(mainTabbedPane, e.getX(), e.getY());
+                }
+            }
+        });
         progressLabel.setBusy(true);
+        progressLabel.setVisible(true);
         sw.execute();
-        return null;
+        registerModules();
+        setLayoutTabs(ApplicationParams.getInstance().getSelectedLayout().getTabList());
+	    ApplicationParams.getInstance().setMainForm(this);
+
     }
 
-    private void addDocumentTree() {
-        navigationTree.setModel(new DefaultTreeModel(
-                new DefaultMutableTreeNode("(root)") {
-                    {
-                        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("Документы");
-                        final DefaultMutableTreeNode doc1 = new DefaultMutableTreeNode("Первичные документы");
-                        treeNode.add(doc1);
-                        final DefaultMutableTreeNode doc2 = new DefaultMutableTreeNode("Вторичные документы");
-                        treeNode.add(doc2);
-                        add(treeNode);
-                        treeNode = new DefaultMutableTreeNode("Справочники и классификаторы");
-                        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode("Общие");
-                        final DefaultMutableTreeNode dictKtad = new DefaultMutableTreeNode("Классификатор территориально-административного деления");
-                        node2.add(dictKtad);
-                        final DefaultMutableTreeNode dictOrg = new DefaultMutableTreeNode("Справочник организаций");
-                        node2.add(dictOrg);
-                        final DefaultMutableTreeNode dictSource = new DefaultMutableTreeNode("Справочник месторождений");
-                        node2.add(dictSource);
-                        final DefaultMutableTreeNode dictSourceZone = new DefaultMutableTreeNode("Справочник зон месторождений");
-                        node2.add(dictSourceZone);
-                        final DefaultMutableTreeNode dictTeritory = new DefaultMutableTreeNode("Справочник территорий");
-                        node2.add(dictTeritory);
-                        final DefaultMutableTreeNode dictGeologObjects = new DefaultMutableTreeNode("Справочник геологических объектов");
-                        node2.add(dictGeologObjects);
-                        treeNode.add(node2);
-                        node2 = new DefaultMutableTreeNode("Прикладные");
-                        final DefaultMutableTreeNode dictSkvag = new DefaultMutableTreeNode("Справочник скважин");
-                        node2.add(dictSkvag);
-                        final DefaultMutableTreeNode dictInclometry = new DefaultMutableTreeNode("Справочник инклинометрии скважин");
-                        node2.add(dictInclometry);
-                        treeNode.add(node2);
-                        add(treeNode);
-                        treeNode = new DefaultMutableTreeNode("Отчеты");
-                        treeNode.add(new DefaultMutableTreeNode("Отчет о геологической экспедиции"));
-                        add(treeNode);
-                        treeNode = new DefaultMutableTreeNode("Карты");
-                        treeNode.add(new DefaultMutableTreeNode("Карта 1"));
-                        add(treeNode);
-                    }
-                }));
+    private void registerModules() {
+        new DocumentsModule().registerInModuleList();
+        new MapsModule().registerInModuleList();
+        new DictsModule().registerInModuleList();
+        new KnowledgeBaseModule().registerInModuleList();
+    }
 
-        navigationTree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
-                final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
-                if (selectedPath != null) {
-                    final Object nodeText = selectedPath.getUserObject();
-                    statusLabel.setText("Текущий документ: " + nodeText);
-                    if (nodeText.equals("Первичные документы") || nodeText.equals("Вторичные документы")) {
-                        addNewButton.setEnabled(true);
-                        editButton.setEnabled(true);
-                        deleteButton.setEnabled(true);
-                        linkPanel.setVisible(true);
-                        addDocListPanel(nodeText.toString());
+    public void addNewTab(String tabName, Component component,boolean needCloseOther) {
+    if (needCloseOther)
+        for (int i = 0; i < mainTabbedPane.getTabCount(); i++) {
+            if (!mainTabbedPane.getTitleAt(i).startsWith("* "))
+                mainTabbedPane.removeTabAt(i);
+        }
+
+        mainTabbedPane.addTab(tabName, component);
+        mainTabbedPane.setSelectedComponent(component);
+    }
+
+
+    public void setLayoutTabs(final List<LayoutTab> layoutTabs) {
+        final JMenu menu = new JMenu("Модули");
+	    ButtonGroup buttonGroup=new ButtonGroup();
+        for (int i = 0, layoutTabsSize = layoutTabs.size(); i < layoutTabsSize; i++) {
+            LayoutTab layoutTab = layoutTabs.get(i);
+            LayoutMenuItem menuItem = new LayoutMenuItem(layoutTab);
+	        buttonGroup.add(menuItem);
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LayoutMenuItem selectedItem = (LayoutMenuItem) e.getSource();
+                    IModule module = ApplicationParams.getInstance().getModule(selectedItem.getLayoutTab().getModuleName());
+                    if (module != null) {
+                        addNewTab(selectedItem.getLayoutTab().getHint(), module.getContentPanel(),true);
+                    } else {
+                        addNewTab(selectedItem.getLayoutTab().getHint(), showSlides(selectedItem.getLayoutTab().getModuleName()),true);
                     }
-                    if (nodeText.equals("Справочник организаций")) {
-                        addNewButton.setEnabled(true);
-                        editButton.setEnabled(true);
-                        deleteButton.setEnabled(true);
-                        addDicListPanel(nodeText.toString());
-                    }
-                    if (nodeText.equals("Карта 1")) {
-                        addShapePanel(nodeText.toString());
+                    for (int j = 0; j < sphereTabs.getTabCount(); j++) {
+                        LayoutTabPanel tabPanel = (LayoutTabPanel) sphereTabs.getComponentAt(j);
+                        if (tabPanel.getLayoutTab().equals(selectedItem.getLayoutTab())) {
+                            sphereTabs.setSelectedIndex(j);
+                        }
+
                     }
                 }
+            });
+            menu.add(menuItem);
+            LayoutTabPanel layoutTabPanel = new LayoutTabPanel(layoutTab);
+
+            sphereTabs.addTab(layoutTab.getName(), layoutTabPanel);
+            sphereTabs.setToolTipTextAt(i, layoutTab.getHint());
+        }
+        sphereTabs.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                LayoutTabPanel selectedModuleTab = (LayoutTabPanel) sphereTabs.getSelectedComponent();
+                if (selectedModuleTab != null) {
+                    IModule module = ApplicationParams.getInstance().getModule(selectedModuleTab.getLayoutTab().getModuleName());
+                    if (module != null) {
+                        addNewTab(selectedModuleTab.getLayoutTab().getHint(), module.getContentPanel(),true);
+                    } else {
+                        addNewTab(selectedModuleTab.getLayoutTab().getHint(), showSlides(selectedModuleTab.getLayoutTab().getModuleName()),true);
+                    }
+	                for (Component menuItem : menu.getMenuComponents()) {
+		                if (((LayoutMenuItem) menuItem).getLayoutTab().equals(selectedModuleTab.getLayoutTab())) {
+			                ((LayoutMenuItem) menuItem).setSelected(true);
+		                }
+
+	                }
+                }
+            }
+        });
+        sphereTabs.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+//                    if (lastSelectedModuleIndex != sphereTabs.getSelectedIndex()) {
+//                        LayoutTabPanel selectedModuleTab = (LayoutTabPanel) sphereTabs.getSelectedComponent();
+//                        lastSelectedModuleIndex = sphereTabs.getSelectedIndex();
+//                        if (selectedModuleTab != null) {
+//                            IModule module = ApplicationParams.getInstance().getModule(selectedModuleTab.getLayoutTab().getModuleName());
+//                            if (module != null) {
+//                                addNewTab(selectedModuleTab.getLayoutTab().getHint(), module.getContentPanel());
+//                            } else {
+//                                addNewTab(selectedModuleTab.getLayoutTab().getHint(), showSlides());
+//                            }
+//                        }
+//                    }
 
             }
         });
+        mainMenuBar.add(menu);
     }
+
+
+    private JPanel showSlides(String moduleName) {
+        for (PresentationTab presentationTab : ApplicationParams.getInstance().getPresentationTabs()) {
+            if (presentationTab.getModuleName().equals(moduleName)) {
+                SlideShowPanel slideShowPanel = new SlideShowPanel();
+                slideShowPanel.setSlides(presentationTab.getSlides());
+                slideShowPanel.showSlides(presentationTab.getDelay());
+                return slideShowPanel;
+            }
+        }
+
+        return new JPanel() {{
+            setLayout(new BorderLayout());
+            add(new JLabel("В процессе реализации"));
+        }};
+
+    }
+
+
+
+
 
     private void exitMenuItemActionPerformed(ActionEvent e) {
         System.exit(0);
     }
 
-    private void addNewButtonActionPerformed(ActionEvent e) {
-        final DefaultMutableTreeNode selectedPath = (DefaultMutableTreeNode) navigationTree.getLastSelectedPathComponent();
-        if (selectedPath != null) {
-            final Object nodeText = selectedPath.getUserObject();
-            if (nodeText.equals("Первичные документы") || nodeText.equals("Вторичные документы")) {
-                DocCreateDialog createDialog = new DocCreateDialog(MainForm.this);
-                createDialog.setModal(true);
-                createDialog.setVisible(true);
-            }
-        }
 
-    }
 
     private void editButtonActionPerformed(ActionEvent e) {
         DocEditDialog editDialog = new DocEditDialog(MainForm.this);
         editDialog.setModal(true);
         editDialog.setVisible(true);
+    }
+
+    private void pinMenuItemActionPerformed(ActionEvent e) {
+        int index = mainTabbedPane.getSelectedIndex();
+        if (!mainTabbedPane.getTitleAt(index).startsWith("* "))
+            mainTabbedPane.setTitleAt(index, "* " + mainTabbedPane.getTitleAt(index));
+        else
+            mainTabbedPane.setTitleAt(index, mainTabbedPane.getTitleAt(index).substring(2));
+    }
+
+    private void closeMenuItemActionPerformed(ActionEvent e) {
+        int index = mainTabbedPane.getSelectedIndex();
+        mainTabbedPane.removeTabAt(index);
     }
 
 
@@ -220,17 +237,9 @@ public class MainForm extends JFrame {
 		helpMenu = new JMenu();
 		menuItem4 = new JMenuItem();
 		menuItem2 = new JMenuItem();
-		splitPane1 = new JSplitPane();
-		scrollPane1 = new JScrollPane();
-		navigationTree = new JTree();
-		mainTabbedPane = new JideTabbedPane();
 		toolBarPanel = new JPanel();
 		spherePanel = new JPanel();
 		sphereTabs = new JideTabbedPane();
-		actionsToolBar = new JToolBar();
-		addNewButton = new JButton();
-		editButton = new JButton();
-		deleteButton = new JButton();
 		statusPanel = new JPanel();
 		statusLabel = new JLabel();
 		progressLabel = new JXBusyLabel();
@@ -238,6 +247,10 @@ public class MainForm extends JFrame {
 		scrollPane2 = new JScrollPane();
 		list1 = new JList();
 		label2 = new JLabel();
+		mainTabbedPane = new JideTabbedPane();
+		tabsPopupMenu = new JPopupMenu();
+		pinMenuItem = new JMenuItem();
+		closeMenuItem = new JMenuItem();
 
 		//======== this ========
 		setMinimumSize(new Dimension(800, 500));
@@ -297,43 +310,9 @@ public class MainForm extends JFrame {
 		}
 		setJMenuBar(mainMenuBar);
 
-		//======== splitPane1 ========
-		{
-			splitPane1.setDividerLocation(153);
-
-			//======== scrollPane1 ========
-			{
-
-				//---- navigationTree ----
-				navigationTree.setRootVisible(false);
-				navigationTree.setShowsRootHandles(true);
-				navigationTree.setToggleClickCount(1);
-				scrollPane1.setViewportView(navigationTree);
-			}
-			splitPane1.setLeftComponent(scrollPane1);
-
-			//======== mainTabbedPane ========
-			{
-				mainTabbedPane.setScrollSelectedTabOnWheel(true);
-				mainTabbedPane.setShowCloseButtonOnSelectedTab(true);
-				mainTabbedPane.setShowCloseButtonOnTab(true);
-				mainTabbedPane.setShowTabButtons(true);
-				mainTabbedPane.setFocusable(false);
-				mainTabbedPane.setBoldActiveTab(true);
-			}
-			splitPane1.setRightComponent(mainTabbedPane);
-		}
-		contentPane.add(splitPane1, BorderLayout.CENTER);
-
 		//======== toolBarPanel ========
 		{
 
-			// JFormDesigner evaluation mark
-			toolBarPanel.setBorder(new javax.swing.border.CompoundBorder(
-				new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-					"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-					javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-					java.awt.Color.red), toolBarPanel.getBorder())); toolBarPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
 			toolBarPanel.setLayout(new VerticalLayout());
 
@@ -348,50 +327,14 @@ public class MainForm extends JFrame {
 					sphereTabs.setMinimumSize(new Dimension(172, 22));
 					sphereTabs.setPreferredSize(new Dimension(172, 22));
 					sphereTabs.setFocusable(false);
+					sphereTabs.setRequestFocusEnabled(false);
+					sphereTabs.setVerifyInputWhenFocusTarget(false);
+					sphereTabs.setColorTheme(1);
+					sphereTabs.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, Color.black, null));
 				}
 				spherePanel.add(sphereTabs, BorderLayout.CENTER);
 			}
 			toolBarPanel.add(spherePanel);
-
-			//======== actionsToolBar ========
-			{
-				actionsToolBar.setRollover(true);
-
-				//---- addNewButton ----
-				addNewButton.setIcon(new ImageIcon(getClass().getResource("/com/geopack/pict/document_new.png")));
-				addNewButton.setToolTipText("\u0421\u043e\u0437\u0434\u0430\u0442\u044c");
-				addNewButton.setMargin(new Insets(0, 0, 0, 0));
-				addNewButton.setEnabled(false);
-				addNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						addNewButtonActionPerformed(e);
-					}
-				});
-				actionsToolBar.add(addNewButton);
-
-				//---- editButton ----
-				editButton.setIcon(new ImageIcon(getClass().getResource("/com/geopack/pict/edit.png")));
-				editButton.setToolTipText("\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c");
-				editButton.setMargin(new Insets(0, 0, 0, 0));
-				editButton.setEnabled(false);
-				editButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						editButtonActionPerformed(e);
-					}
-				});
-				actionsToolBar.add(editButton);
-
-				//---- deleteButton ----
-				deleteButton.setIcon(new ImageIcon(getClass().getResource("/com/geopack/pict/document_delete.png")));
-				deleteButton.setToolTipText("\u0423\u0434\u0430\u043b\u0438\u0442\u044c");
-				deleteButton.setPreferredSize(new Dimension(53, 53));
-				deleteButton.setMaximumSize(new Dimension(59, 59));
-				deleteButton.setMargin(new Insets(0, 0, 0, 0));
-				deleteButton.setMinimumSize(new Dimension(59, 59));
-				deleteButton.setEnabled(false);
-				actionsToolBar.add(deleteButton);
-			}
-			toolBarPanel.add(actionsToolBar);
 		}
 		contentPane.add(toolBarPanel, BorderLayout.NORTH);
 
@@ -437,8 +380,44 @@ public class MainForm extends JFrame {
 			linkPanel.add(label2, BorderLayout.NORTH);
 		}
 		contentPane.add(linkPanel, BorderLayout.EAST);
+
+		//======== mainTabbedPane ========
+		{
+			mainTabbedPane.setScrollSelectedTabOnWheel(true);
+			mainTabbedPane.setShowCloseButtonOnSelectedTab(true);
+			mainTabbedPane.setShowCloseButtonOnTab(true);
+			mainTabbedPane.setShowTabButtons(true);
+			mainTabbedPane.setFocusable(false);
+			mainTabbedPane.setBoldActiveTab(true);
+			mainTabbedPane.setTabShape(0);
+			mainTabbedPane.setUseDefaultShowIconsOnTab(false);
+			mainTabbedPane.setComponentPopupMenu(null);
+		}
+		contentPane.add(mainTabbedPane, BorderLayout.CENTER);
 		pack();
 		setLocationRelativeTo(getOwner());
+
+		//======== tabsPopupMenu ========
+		{
+
+			//---- pinMenuItem ----
+			pinMenuItem.setText("\u0417\u0430\u043a\u0440\u0435\u043f\u0438\u0442\u044c \u0432\u043a\u043b\u0430\u0434\u043a\u0443");
+			pinMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pinMenuItemActionPerformed(e);
+				}
+			});
+			tabsPopupMenu.add(pinMenuItem);
+
+			//---- closeMenuItem ----
+			closeMenuItem.setText("\u0417\u0430\u043a\u0440\u044b\u0442\u044c");
+			closeMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					closeMenuItemActionPerformed(e);
+				}
+			});
+			tabsPopupMenu.add(closeMenuItem);
+		}
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -453,17 +432,9 @@ public class MainForm extends JFrame {
 	private JMenu helpMenu;
 	private JMenuItem menuItem4;
 	private JMenuItem menuItem2;
-	private JSplitPane splitPane1;
-	private JScrollPane scrollPane1;
-	private JTree navigationTree;
-	private JideTabbedPane mainTabbedPane;
 	private JPanel toolBarPanel;
 	private JPanel spherePanel;
 	private JideTabbedPane sphereTabs;
-	private JToolBar actionsToolBar;
-	private JButton addNewButton;
-	private JButton editButton;
-	private JButton deleteButton;
 	private JPanel statusPanel;
 	private JLabel statusLabel;
 	private JXBusyLabel progressLabel;
@@ -471,21 +442,27 @@ public class MainForm extends JFrame {
 	private JScrollPane scrollPane2;
 	private JList list1;
 	private JLabel label2;
+	private JideTabbedPane mainTabbedPane;
+	private JPopupMenu tabsPopupMenu;
+	private JMenuItem pinMenuItem;
+	private JMenuItem closeMenuItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
-	private class LayoutMenuItem extends JMenuItem{
-		private LayoutTab layoutTab;
+    private class LayoutMenuItem extends JRadioButtonMenuItem {
+        private LayoutTab layoutTab;
 
-		private LayoutMenuItem(LayoutTab layoutTab) {
-			this.layoutTab = layoutTab;
-			setText(layoutTab.getName());
-			setToolTipText(layoutTab.getHint());
-		}
+        public LayoutMenuItem(LayoutTab layoutTab) {
+	        super();
+	        
+            this.layoutTab = layoutTab;
+            setText(layoutTab.getName());
+            setToolTipText(layoutTab.getHint());
+        }
 
-		public LayoutTab getLayoutTab() {
-			return layoutTab;
-		}
-	}
+        public LayoutTab getLayoutTab() {
+            return layoutTab;
+        }
+    }
 
     private static class LayoutTabPanel extends JPanel {
         private LayoutTab layoutTab;

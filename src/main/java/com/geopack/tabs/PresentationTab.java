@@ -10,22 +10,33 @@ import java.util.List;
  */
 public class PresentationTab {
     private String moduleName;
-    private List<String> presentPathList=new ArrayList<String>();
+    private int delay;
+    private List<Slide> slides =new ArrayList<Slide>();
 
-    public PresentationTab(String moduleName, List<String> presentPathList) {
-        this.moduleName = moduleName;
-        this.presentPathList = presentPathList;
+    public PresentationTab() {
+
     }
 
-    public List<String> getPresentPathList() {
-        return presentPathList;
+    public List<Slide> getSlides() {
+        return slides;
     }
 
     public String getModuleName() {
         return moduleName;
     }
 
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
+    }
+    public void addSlide(Slide slide) {
+        slides.add(slide);
     }
 }

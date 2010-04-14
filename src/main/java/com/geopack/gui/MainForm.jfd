@@ -55,108 +55,6 @@
       </void> 
       <void method="add"> 
        <object class="com.jformdesigner.model.FormContainer"> 
-        <string>javax.swing.JSplitPane</string> 
-        <object class="com.jformdesigner.model.FormLayoutManager"> 
-         <class>javax.swing.JSplitPane</class> 
-        </object> 
-        <void method="setProperty"> 
-         <string>dividerLocation</string> 
-         <int>153</int> 
-        </void> 
-        <void property="name"> 
-         <string>splitPane1</string> 
-        </void> 
-        <void method="add"> 
-         <object class="com.jformdesigner.model.FormContainer"> 
-          <string>javax.swing.JScrollPane</string> 
-          <object class="com.jformdesigner.model.FormLayoutManager"> 
-           <class>javax.swing.JScrollPane</class> 
-          </object> 
-          <void property="name"> 
-           <string>scrollPane1</string> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JTree</string> 
-            <void method="setProperty"> 
-             <string>rootVisible</string> 
-             <boolean>false</boolean> 
-            </void> 
-            <void method="setProperty"> 
-             <string>showsRootHandles</string> 
-             <boolean>true</boolean> 
-            </void> 
-            <void method="setProperty"> 
-             <string>toggleClickCount</string> 
-             <int>1</int> 
-            </void> 
-            <void property="name"> 
-             <string>navigationTree</string> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-          <class>java.lang.String</class> 
-          <void method="setProperty"> 
-           <string>value</string> 
-           <string>left</string> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="com.jformdesigner.model.FormContainer"> 
-          <string>com.jidesoft.swing.JideTabbedPane</string> 
-          <object class="com.jformdesigner.model.FormLayoutManager"> 
-           <class>javax.swing.JTabbedPane</class> 
-          </object> 
-          <void method="setProperty"> 
-           <string>scrollSelectedTabOnWheel</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void method="setProperty"> 
-           <string>showCloseButtonOnSelectedTab</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void method="setProperty"> 
-           <string>showCloseButtonOnTab</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void method="setProperty"> 
-           <string>showTabButtons</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void method="setProperty"> 
-           <string>focusable</string> 
-           <boolean>false</boolean> 
-          </void> 
-          <void method="setProperty"> 
-           <string>boldActiveTab</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="name"> 
-           <string>mainTabbedPane</string> 
-          </void> 
-         </object> 
-         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-          <class>java.lang.String</class> 
-          <void method="setProperty"> 
-           <string>value</string> 
-           <string>right</string> 
-          </void> 
-         </object> 
-        </void> 
-       </object> 
-       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-        <class>java.lang.String</class> 
-        <void method="setProperty"> 
-         <string>value</string> 
-         <string>Center</string> 
-        </void> 
-       </object> 
-      </void> 
-      <void method="add"> 
-       <object class="com.jformdesigner.model.FormContainer"> 
         <string>javax.swing.JPanel</string> 
         <object class="com.jformdesigner.model.FormLayoutManager"> 
          <class>org.jdesktop.swingx.VerticalLayout</class> 
@@ -210,6 +108,28 @@
              <string>focusable</string> 
              <boolean>false</boolean> 
             </void> 
+            <void method="setProperty"> 
+             <string>requestFocusEnabled</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>verifyInputWhenFocusTarget</string> 
+             <boolean>false</boolean> 
+            </void> 
+            <void method="setProperty"> 
+             <string>colorTheme</string> 
+             <int>1</int> 
+            </void> 
+            <void method="setProperty"> 
+             <string>border</string> 
+             <object class="javax.swing.border.BevelBorder"> 
+              <int>1</int> 
+              <null/> 
+              <null/> 
+              <object class="java.awt.Color" field="black"/> 
+              <null/> 
+             </object> 
+            </void> 
             <void property="name"> 
              <string>sphereTabs</string> 
             </void> 
@@ -219,154 +139,6 @@
             <void method="setProperty"> 
              <string>value</string> 
              <string>Center</string> 
-            </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="com.jformdesigner.model.FormContainer"> 
-          <string>javax.swing.JToolBar</string> 
-          <object class="com.jformdesigner.model.FormLayoutManager"> 
-           <class>javax.swing.JToolBar</class> 
-          </object> 
-          <void method="setProperty"> 
-           <string>rollover</string> 
-           <boolean>true</boolean> 
-          </void> 
-          <void property="name"> 
-           <string>actionsToolBar</string> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JButton</string> 
-            <void method="setProperty"> 
-             <string>icon</string> 
-             <object class="com.jformdesigner.model.SwingIcon"> 
-              <int>0</int> 
-              <string>/com/geopack/pict/document_new.png</string> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>toolTipText</string> 
-             <string>Создать</string> 
-            </void> 
-            <void method="setProperty"> 
-             <string>margin</string> 
-             <object class="java.awt.Insets"> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>enabled</string> 
-             <boolean>false</boolean> 
-            </void> 
-            <void property="name"> 
-             <string>addNewButton</string> 
-            </void> 
-            <void method="addEvent"> 
-             <object class="com.jformdesigner.model.FormEvent"> 
-              <string>java.awt.event.ActionListener</string> 
-              <string>actionPerformed</string> 
-              <string>addNewButtonActionPerformed</string> 
-              <boolean>true</boolean> 
-             </object> 
-            </void> 
-           </object> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JButton</string> 
-            <void method="setProperty"> 
-             <string>icon</string> 
-             <object class="com.jformdesigner.model.SwingIcon"> 
-              <int>0</int> 
-              <string>/com/geopack/pict/edit.png</string> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>toolTipText</string> 
-             <string>Редактировать</string> 
-            </void> 
-            <void method="setProperty"> 
-             <string>margin</string> 
-             <object class="java.awt.Insets"> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>enabled</string> 
-             <boolean>false</boolean> 
-            </void> 
-            <void property="name"> 
-             <string>editButton</string> 
-            </void> 
-            <void method="addEvent"> 
-             <object class="com.jformdesigner.model.FormEvent"> 
-              <string>java.awt.event.ActionListener</string> 
-              <string>actionPerformed</string> 
-              <string>editButtonActionPerformed</string> 
-              <boolean>true</boolean> 
-             </object> 
-            </void> 
-           </object> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JButton</string> 
-            <void method="setProperty"> 
-             <string>icon</string> 
-             <object class="com.jformdesigner.model.SwingIcon"> 
-              <int>0</int> 
-              <string>/com/geopack/pict/document_delete.png</string> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>toolTipText</string> 
-             <string>Удалить</string> 
-            </void> 
-            <void method="setProperty"> 
-             <string>preferredSize</string> 
-             <object class="java.awt.Dimension"> 
-              <int>53</int> 
-              <int>53</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>maximumSize</string> 
-             <object class="java.awt.Dimension"> 
-              <int>59</int> 
-              <int>59</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>margin</string> 
-             <object class="java.awt.Insets"> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-              <int>0</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>minimumSize</string> 
-             <object class="java.awt.Dimension"> 
-              <int>59</int> 
-              <int>59</int> 
-             </object> 
-            </void> 
-            <void method="setProperty"> 
-             <string>enabled</string> 
-             <boolean>false</boolean> 
-            </void> 
-            <void property="name"> 
-             <string>deleteButton</string> 
             </void> 
            </object> 
           </void> 
@@ -518,6 +290,60 @@
         </void> 
        </object> 
       </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormContainer"> 
+        <string>com.jidesoft.swing.JideTabbedPane</string> 
+        <object class="com.jformdesigner.model.FormLayoutManager"> 
+         <class>javax.swing.JTabbedPane</class> 
+        </object> 
+        <void method="setProperty"> 
+         <string>scrollSelectedTabOnWheel</string> 
+         <boolean>true</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>showCloseButtonOnSelectedTab</string> 
+         <boolean>true</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>showCloseButtonOnTab</string> 
+         <boolean>true</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>showTabButtons</string> 
+         <boolean>true</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>focusable</string> 
+         <boolean>false</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>boldActiveTab</string> 
+         <boolean>true</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>tabShape</string> 
+         <int>0</int> 
+        </void> 
+        <void method="setProperty"> 
+         <string>useDefaultShowIconsOnTab</string> 
+         <boolean>false</boolean> 
+        </void> 
+        <void method="setProperty"> 
+         <string>componentPopupMenu</string> 
+         <object class="com.jformdesigner.model.FormObject" field="NULL_VALUE"/> 
+        </void> 
+        <void property="name"> 
+         <string>mainTabbedPane</string> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>java.lang.String</class> 
+        <void method="setProperty"> 
+         <string>value</string> 
+         <string>Center</string> 
+        </void> 
+       </object> 
+      </void> 
       <void property="menuBar"> 
        <object class="com.jformdesigner.model.FormContainer"> 
         <string>javax.swing.JMenuBar</string> 
@@ -663,6 +489,67 @@
        <object class="java.awt.Dimension"> 
         <int>580</int> 
         <int>450</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object class="com.jformdesigner.model.FormContainer"> 
+      <string>javax.swing.JPopupMenu</string> 
+      <object class="com.jformdesigner.model.FormLayoutManager"> 
+       <class>javax.swing.JPopupMenu</class> 
+      </object> 
+      <void property="name"> 
+       <string>tabsPopupMenu</string> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormComponent"> 
+        <string>javax.swing.JMenuItem</string> 
+        <void method="setProperty"> 
+         <string>text</string> 
+         <string>Закрепить вкладку</string> 
+        </void> 
+        <void property="name"> 
+         <string>pinMenuItem</string> 
+        </void> 
+        <void method="addEvent"> 
+         <object class="com.jformdesigner.model.FormEvent"> 
+          <string>java.awt.event.ActionListener</string> 
+          <string>actionPerformed</string> 
+          <string>pinMenuItemActionPerformed</string> 
+          <boolean>true</boolean> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormComponent"> 
+        <string>javax.swing.JMenuItem</string> 
+        <void method="setProperty"> 
+         <string>text</string> 
+         <string>Закрыть</string> 
+        </void> 
+        <void property="name"> 
+         <string>closeMenuItem</string> 
+        </void> 
+        <void method="addEvent"> 
+         <object class="com.jformdesigner.model.FormEvent"> 
+          <string>java.awt.event.ActionListener</string> 
+          <string>actionPerformed</string> 
+          <string>closeMenuItemActionPerformed</string> 
+          <boolean>true</boolean> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+     <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+      <null/> 
+      <void method="setProperty"> 
+       <string>location</string> 
+       <object class="java.awt.Point"> 
+        <int>110</int> 
+        <int>475</int> 
        </object> 
       </void> 
      </object> 

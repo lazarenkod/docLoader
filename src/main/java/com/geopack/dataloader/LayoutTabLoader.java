@@ -15,7 +15,7 @@ import java.io.IOException;
  * Time: 23:49:42
  */
 public class LayoutTabLoader {
-    public static final String SCHEME_PATH = "data";
+    public static final String SCHEME_PATH = "data/layouts";
 
     public LayoutTabLoader() {
     }

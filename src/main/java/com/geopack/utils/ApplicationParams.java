@@ -1,8 +1,12 @@
 package com.geopack.utils;
 
+import com.geopack.gui.MainForm;
+import com.geopack.maps.ShapeFiles;
 import com.geopack.modules.IModule;
+import com.geopack.tabs.PresentationTab;
 import com.geopack.tabs.TbLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +18,17 @@ import java.util.Map;
  */
 public class ApplicationParams {
 
+	private ShapeFiles loadedShapes;
+
     private TbLayout selectedLayout;
 
-    private List<TbLayout> loadedLayouts;
+    private List<TbLayout> loadedLayouts=new ArrayList<TbLayout>();
 
 	private Map<String,IModule> moduleMap=new HashMap<String, IModule>();
+
+    private List<PresentationTab> presentationTabs=new ArrayList<PresentationTab>();
+
+	private MainForm mainForm;
 
     private static ApplicationParams instance;
 
@@ -58,4 +68,29 @@ public class ApplicationParams {
 	public Map<String, IModule> getModuleMap() {
 		return moduleMap;
 	}
+
+	public ShapeFiles getLoadedShapes() {
+		return loadedShapes;
+	}
+
+	public void setLoadedShapes(ShapeFiles loadedShapes) {
+		this.loadedShapes = loadedShapes;
+	}
+
+    public List<PresentationTab> getPresentationTabs() {
+        return presentationTabs;
+    }
+
+    public void setPresentationTabs(List<PresentationTab> presentationTabs) {
+        this.presentationTabs = presentationTabs;
+    }
+
+	public MainForm getMainForm() {
+		return mainForm;
+	}
+
+	public void setMainForm(MainForm mainForm) {
+		this.mainForm = mainForm;
+	}
 }
+
